@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "app/assets/fonts/Mona-Sans-Black.ttf",
+      "sha1": "103847547b5726b5901cecf1d323f31c857e5ca0"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-Bold.ttf",
+      "sha1": "5a40107936da6de11ac31ec7b376cc2dcb2320e5"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-ExtraBold.ttf",
+      "sha1": "1eafea057043be19c58e2c446ac54dd43a29ccc0"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-Light.ttf",
+      "sha1": "3283278aa54979f650e937c2d6359bbc41d35471"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-Medium.ttf",
+      "sha1": "357e19c85f50a69bd6f1b616b4df228acea17efe"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-Regular.ttf",
+      "sha1": "e49bd5b6f31933d56e63de0489fc919a06e7f78c"
+    },
+    {
+      "path": "app/assets/fonts/Mona-Sans-SemiBold.ttf",
+      "sha1": "221dfcd7ea67a5dab3b2051df607a8bfddab47cd"
+    }
+  ]
+}

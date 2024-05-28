@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "515986149024",
+    "project_id": "aifinancialreact",
+    "storage_bucket": "aifinancialreact.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515986149024:android:272dad99fb4ad38f8c83c5",
+        "android_client_info": {
+          "package_name": "com.aifinancialreact"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwcBdikI3Z-4kLokq37vcrSFox_WV5ECY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
