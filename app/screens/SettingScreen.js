@@ -5,7 +5,7 @@ export default function SettingScreen() {
   return (
     <>
       <View>
-        <Text>SettingScreen</Text>
+        <Text>Setting Screen</Text>
       </View>
     </>
   );
