@@ -3,8 +3,10 @@ import React from 'react';
 
 export default function SettingScreen() {
   return (
-    <View>
-      <Text>SettingScreen</Text>
-    </View>
+    <>
+      <View>
+        <Text>SettingScreen</Text>
+      </View>
+    </>
   );
 }
