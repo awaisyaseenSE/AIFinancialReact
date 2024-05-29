@@ -1,4 +1,4 @@
-import {View, StyleSheet, Platform, Image} from 'react-native';
+import {StyleSheet, Platform, Image} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import colors from '../config/colors';
