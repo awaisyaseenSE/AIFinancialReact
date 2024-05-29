@@ -10,9 +10,7 @@ import {
   Keyboard,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import ButtonComponent from '../components/ButtonComponent';
 import TextInputComponent from '../components/TextInputComponent';
-import useAuth from '../auth/useAuth';
 import ScreenComponent from '../components/ScreenComponent';
 import TopHomeScreenCompo from '../components/TopHomeScreenCompo';
 import colors from '../config/colors';
@@ -24,7 +22,6 @@ import firestore from '@react-native-firebase/firestore';
 import ShowClientsProfileCompo from '../components/ShowClientsProfileCompo';
 
 export default function HomeScreen() {
-  const {logout} = useAuth();
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
@@ -146,7 +143,3 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-
-{
-  /* <ButtonComponent style={styles.btn} title="Logout" onPress={logout} /> */
-}
