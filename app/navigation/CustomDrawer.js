@@ -81,7 +81,7 @@ function CustomDrawer({navigation}) {
             image={require('../assets/user-icon.png')}
             title="Profile"
             onPress={() => {
-              // navigation.navigate(navigationStrings.SettingScreen);
+              navigation.navigate(navigationStrings.ProfileScreen);
               // navigation.closeDrawer();
             }}
           />

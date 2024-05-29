@@ -7,4 +7,5 @@ export default {
   ChatWithAiScreen: 'ChatWithAiScreen',
   CreateClientScreen: 'CreateClientScreen',
   ClientDetailScreen: 'ClientDetailScreen',
+  ProfileScreen: 'ProfileScreen',
 };

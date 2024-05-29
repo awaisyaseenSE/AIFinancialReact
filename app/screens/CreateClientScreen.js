@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   topContainer: {
-    height: 140,
+    height: 150,
     backgroundColor: colors.primary,
   },
   profileImage: {

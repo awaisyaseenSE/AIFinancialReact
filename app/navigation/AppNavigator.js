@@ -10,6 +10,7 @@ import colors from '../config/colors';
 import CustomDrawer from './CustomDrawer';
 import CreateClientScreen from '../screens/CreateClientScreen';
 import ClientDetailScreen from '../screens/ClientDetailScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -82,6 +83,13 @@ function AppNavigator() {
       <Stack.Screen
         name="ClientDetailScreen"
         component={ClientDetailScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
         options={{
           headerShown: false,
         }}
