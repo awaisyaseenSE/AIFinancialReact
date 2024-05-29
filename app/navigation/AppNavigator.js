@@ -9,6 +9,7 @@ import {Dimensions, Platform} from 'react-native';
 import colors from '../config/colors';
 import CustomDrawer from './CustomDrawer';
 import CreateClientScreen from '../screens/CreateClientScreen';
+import ClientDetailScreen from '../screens/ClientDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -74,6 +75,13 @@ function AppNavigator() {
       <Stack.Screen
         name="CreateClientScreen"
         component={CreateClientScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ClientDetailScreen"
+        component={ClientDetailScreen}
         options={{
           headerShown: false,
         }}

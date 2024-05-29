@@ -4,19 +4,29 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import colors from '../config/colors';
 import fontFamily from '../config/fontFamily';
 import FastImage from 'react-native-fast-image';
+import {useNavigation} from '@react-navigation/native';
+import navigationStrings from '../navigation/navigationStrings';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const ShowClientsProfileCompo = ({data}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.contentContainer}>
+      <TouchableOpacity
+        style={styles.contentContainer}
+        onPress={() =>
+          navigation.navigate(navigationStrings.ClientDetailScreen, {
+            clientData: data,
+          })
+        }>
         <FastImage
           source={
             data?.imageURL
@@ -57,6 +67,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
 
     elevation: 11,
+    borderWidth: Platform.OS === 'android' ? 1 : 0,
+    borderColor: colors.gray_light,
   },
   profileImage: {
     width: '90%',

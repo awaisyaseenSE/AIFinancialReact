@@ -6,4 +6,5 @@ export default {
   SettingScreen: 'SettingScreen',
   ChatWithAiScreen: 'ChatWithAiScreen',
   CreateClientScreen: 'CreateClientScreen',
+  ClientDetailScreen: 'ClientDetailScreen',
 };

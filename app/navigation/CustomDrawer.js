@@ -1,22 +1,36 @@
 import React from 'react';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
-import {
-  View,
-  Text,
-  Platform,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  StatusBar,
-} from 'react-native';
+import {View, Text, Platform, StyleSheet, Image, Alert} from 'react-native';
 import DrawerItemListCompo from './DrawerItemListCompo';
 import navigationStrings from '../navigation/navigationStrings';
 import colors from '../config/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {getResponsiveHeight, getResponsiveWidth} from '../helper/getResponsive';
+import {getResponsiveHeight} from '../helper/getResponsive';
+import useAuth from '../auth/useAuth';
 
 function CustomDrawer({navigation}) {
   const insect = useSafeAreaInsets();
+  const {logout} = useAuth();
+
+  const handleLogout = () => {
+    try {
+      Alert.alert('SignOut', 'Are you sure to SignOut!', [
+        {
+          text: 'Yes',
+          onPress: logout,
+        },
+        {
+          text: 'No',
+        },
+      ]);
+    } catch (error) {
+      console.log(
+        '============ERROR WHILE LOG OUT in Custom Drawer========================',
+      );
+      console.log(error);
+      console.log('====================================');
+    }
+  };
 
   return (
     <>
@@ -56,11 +70,27 @@ function CustomDrawer({navigation}) {
           }}></View>
         <View style={{flex: 1, marginTop: 18}}>
           <DrawerItemListCompo
+            image={require('../assets/users.png')}
+            title="Clients"
+            onPress={() => {
+              // navigation.navigate(navigationStrings.SettingScreen);
+              // navigation.closeDrawer();
+            }}
+          />
+          <DrawerItemListCompo
+            image={require('../assets/user-icon.png')}
+            title="Profile"
+            onPress={() => {
+              // navigation.navigate(navigationStrings.SettingScreen);
+              // navigation.closeDrawer();
+            }}
+          />
+          <DrawerItemListCompo
             image={require('../assets/setting.png')}
             title="Setting"
             onPress={() => {
               navigation.navigate(navigationStrings.SettingScreen);
-              navigation.closeDrawer();
+              // navigation.closeDrawer();
             }}
           />
         </View>
@@ -76,7 +106,7 @@ function CustomDrawer({navigation}) {
           }}
           txtStyle={{color: colors.black}}
           iconStyle={{tintColor: colors.black}}
-          onPress={{}}
+          onPress={handleLogout}
         />
       </View>
     </>
@@ -115,7 +145,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   line: {
-    width: '50%',
+    width: '80%',
     height: 2,
     backgroundColor: colors.black,
     marginBottom: 20,

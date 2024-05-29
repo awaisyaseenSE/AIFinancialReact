@@ -51,7 +51,7 @@ export default function LoginScreen() {
             setEmail('');
             setPassword('');
             setLoading(false);
-            console.log('user details: ', auth().currentUser);
+            // console.log('user details: ', auth().currentUser);
             setUser(auth().currentUser);
           })
           .catch(error => {

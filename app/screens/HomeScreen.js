@@ -6,6 +6,8 @@ import {
   Image,
   ActivityIndicator,
   FlatList,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ButtonComponent from '../components/ButtonComponent';
@@ -55,47 +57,56 @@ export default function HomeScreen() {
 
   return (
     <ScreenComponent>
-      <TopHomeScreenCompo onPressLeft={() => navigation.openDrawer()} />
-      <View style={styles.container}>
-        <TextInputComponent
-          leftIcon={require('../assets/search.png')}
-          inputStyle={styles.textInputStyle}
-          placeholder="Search here.."
-          value={searchText}
-          onChangeText={text => {
-            if (text.trim().length) {
-              setSearchText(text);
-            } else {
-              setSearchText('');
-            }
-          }}
-        />
-        <TouchableOpacity
-          style={styles.plusIconContainer}
-          onPress={() =>
-            navigation.navigate(navigationStrings.CreateClientScreen)
-          }>
-          <Image
-            source={require('../assets/plus.png')}
-            style={styles.plusIcon}
+      <TouchableWithoutFeedback
+        style={{flex: 1}}
+        onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <TopHomeScreenCompo
+            onPressLeft={() => navigation.openDrawer()}
+            style={{paddingHorizontal: 0}}
           />
-          <Text style={styles.txt}>Add new client</Text>
-        </TouchableOpacity>
-        {clientsData?.length > 0 && (
-          <Text style={styles.heading}>Client profiles</Text>
-        )}
-        {loading && <ActivityIndicator size={'large'} color={colors.primary} />}
-        <View style={{flex: 1}}>
-          <FlatList
-            data={clientsData}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => <ShowClientsProfileCompo data={item} />}
-            numColumns={3}
-            ListFooterComponent={<View style={{marginVertical: 30}} />}
+          <TextInputComponent
+            leftIcon={require('../assets/search.png')}
+            inputStyle={styles.textInputStyle}
+            placeholder="Search here.."
+            value={searchText}
+            onChangeText={text => {
+              if (text.trim().length) {
+                setSearchText(text);
+              } else {
+                setSearchText('');
+              }
+            }}
           />
+          <TouchableOpacity
+            style={styles.plusIconContainer}
+            onPress={() =>
+              navigation.navigate(navigationStrings.CreateClientScreen)
+            }>
+            <Image
+              source={require('../assets/plus.png')}
+              style={styles.plusIcon}
+            />
+            <Text style={styles.txt}>Add new client</Text>
+          </TouchableOpacity>
+          {clientsData?.length > 0 && (
+            <Text style={styles.heading}>Client profiles</Text>
+          )}
+          {loading && (
+            <ActivityIndicator size={'large'} color={colors.primary} />
+          )}
+          <View style={{flex: 1}}>
+            <FlatList
+              data={clientsData}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => <ShowClientsProfileCompo data={item} />}
+              numColumns={3}
+              ListFooterComponent={<View style={{marginVertical: 30}} />}
+            />
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </ScreenComponent>
   );
 }
