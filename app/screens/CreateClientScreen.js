@@ -23,6 +23,7 @@ import ButtonComponent from '../components/ButtonComponent';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import moment from 'moment';
 
 export default function CreateClientScreen() {
   const insect = useSafeAreaInsets();
@@ -36,6 +37,9 @@ export default function CreateClientScreen() {
   const [estateInfo, setEstateInfo] = useState('');
   const [insuranceInfo, setInsuranceInfo] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [fullNameError, setFullNameError] = useState('');
+  const [dateOfBirthError, setDateOfBirthError] = useState('');
 
   const handlePickImage = async () => {
     try {
@@ -76,38 +80,69 @@ export default function CreateClientScreen() {
 
   const handleSubmit = async () => {
     try {
-      let clientImageUrl = '';
-      if (selectedImg !== '') {
-        clientImageUrl = await handleUploadImage();
+      let dataOfbithValid = false;
+
+      if (fullName === '') {
+        setFullNameError('Client name is required!');
+      } else {
+        setFullNameError('');
       }
-      setLoading(true);
-      console.log('client uploading image: ', clientImageUrl);
-      firestore()
-        .collection('clientProfiles')
-        .add({
-          fullName,
-          dateOfBirth,
-          financialInfo,
-          personalInfo,
-          investmentInfo,
-          taxInfo,
-          estateInfo,
-          insuranceInfo,
-          imageURL: clientImageUrl,
-          time: new Date(),
-          userUid: auth().currentUser.uid,
-        })
-        .then(docRef => {
-          Alert.alert('Client data is uploaded successfully!');
-          setLoading(false);
-        })
-        .catch(er => {
-          console.log(
-            'getting error while uploading client data to firestore: ',
-            er,
-          );
-          setLoading(false);
-        });
+
+      if (dateOfBirth !== '') {
+        if (moment(dateOfBirth, 'DD-MM-YYYY', true).isValid()) {
+          let currentDate = new Date();
+          let currentYear = currentDate.getFullYear();
+          let yy = dateOfBirth?.split('-')[2];
+          if (yy <= currentYear) {
+            setDateOfBirthError('');
+            dataOfbithValid = true;
+          } else {
+            dataOfbithValid = false;
+            setDateOfBirthError('Enter valid date of birth!');
+          }
+        } else {
+          dataOfbithValid = false;
+          setDateOfBirthError('Enter valid date of birth!');
+        }
+      } else {
+        setDateOfBirthError('');
+        dataOfbithValid = true;
+      }
+
+      if (fullName !== '' && dataOfbithValid) {
+        let clientImageUrl = '';
+        if (selectedImg !== '') {
+          clientImageUrl = await handleUploadImage();
+        }
+        setLoading(true);
+        console.log('client uploading image: ', clientImageUrl);
+        firestore()
+          .collection('clientProfiles')
+          .add({
+            fullName,
+            dateOfBirth,
+            financialInfo,
+            personalInfo,
+            investmentInfo,
+            taxInfo,
+            estateInfo,
+            insuranceInfo,
+            imageURL: clientImageUrl,
+            time: new Date(),
+            userUid: auth().currentUser.uid,
+          })
+          .then(docRef => {
+            Alert.alert('Client data is uploaded successfully!');
+            setLoading(false);
+          })
+          .catch(er => {
+            console.log(
+              'getting error while uploading client data to firestore: ',
+              er,
+            );
+            setLoading(false);
+          });
+      }
     } catch (error) {
       setLoading(false);
       console.log(
@@ -165,7 +200,15 @@ export default function CreateClientScreen() {
                 }
               }}
               maxLength={100}
+              inputStyle={{
+                marginBottom: fullNameError !== '' ? 4 : 10,
+                borderWidth: fullNameError !== '' ? 1 : 0,
+                borderColor: fullNameError !== '' ? colors.red : null,
+              }}
             />
+            {fullNameError !== '' && (
+              <Text style={styles.errorTxt}>{fullNameError}</Text>
+            )}
             <Text style={styles.label}>Date of Birth</Text>
             <TextInputComponent
               placeholder="DD-MM-YYYY"
@@ -178,7 +221,15 @@ export default function CreateClientScreen() {
                 }
               }}
               maxLength={10}
+              inputStyle={{
+                marginBottom: dateOfBirthError !== '' ? 4 : 10,
+                borderWidth: dateOfBirthError !== '' ? 1 : 0,
+                borderColor: dateOfBirthError !== '' ? colors.red : null,
+              }}
             />
+            {dateOfBirthError !== '' && (
+              <Text style={styles.errorTxt}>{dateOfBirthError}</Text>
+            )}
             <Text style={styles.label}>Financial Information</Text>
             <View>
               <TextInputComponent
@@ -384,5 +435,12 @@ const styles = StyleSheet.create({
   },
   btnTxt: {
     fontSize: 16,
+  },
+  errorTxt: {
+    fontSize: 12,
+    color: colors.red,
+    fontFamily: fontFamily.medium,
+    marginBottom: 10,
+    paddingLeft: 4,
   },
 });

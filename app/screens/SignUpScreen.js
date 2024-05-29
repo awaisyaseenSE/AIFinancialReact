@@ -43,6 +43,9 @@ export default function SignUpScreen() {
       await firestore().collection('users').doc(auth().currentUser.uid).set({
         fullName: userName,
         email: email,
+        imageUrl: '',
+        phoneNumber: '',
+        dateOfBirth: '',
       });
       setLoading(false);
       setUser(auth().currentUser);

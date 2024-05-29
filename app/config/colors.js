@@ -9,4 +9,5 @@ export default {
   bottom_Tab_Gray: '#AFAFAF',
   gray_light: '#EFF0F0',
   gray_dark: '#828282',
+  off_White: '#f4f3f4',
 };

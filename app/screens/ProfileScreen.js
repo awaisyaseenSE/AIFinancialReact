@@ -23,6 +23,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import ButtonComponent from '../components/ButtonComponent';
 import {validatePhoneNumber} from '../helper/validation';
+import moment from 'moment';
+import storage from '@react-native-firebase/storage';
 
 export default function ProfileScreen() {
   const insect = useSafeAreaInsets();
@@ -37,12 +39,15 @@ export default function ProfileScreen() {
 
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [dateOfBirthError, setDateOfBirthError] = useState('');
+  const [isAnyChanges, setIsAnyChanges] = useState(false);
 
   const handlePickImage = async () => {
     try {
       let res = await pickImage();
       if (!!res) {
         setSelectedImg(res?.uri);
+        setIsAnyChanges(true);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -58,8 +63,9 @@ export default function ProfileScreen() {
         if (snap.exists) {
           var data = snap.data();
           setUserAllData(data);
-          //   setUserImageUrl(data?.imageUrl);
           setFullName(data?.fullName);
+          setPhone(data?.phoneNumber);
+          setDateOfBirth(data?.dateOfBirth);
           setLoading(false);
         } else {
           setLoading(false);
@@ -68,9 +74,36 @@ export default function ProfileScreen() {
     return () => unsubscribe();
   }, []);
 
+  const handleUploadImage = async () => {
+    let imgID = Date.now();
+    const imageName = `profileImages/${imgID}.jpg`;
+    const reference = storage().ref(imageName);
+
+    try {
+      setLoading(true);
+      const response = await fetch(selectedImg);
+      const blobImage = await response.blob();
+      const task = reference.put(blobImage);
+      await task;
+      const downloadURL = await reference.getDownloadURL();
+      setLoading(false);
+      return downloadURL;
+    } catch (error) {
+      if (error.code == 'storage/unknown') {
+        setLoading(false);
+        console.log('error while uploading profile picture: ', error);
+        return null;
+      }
+      console.log('Error while uploading client image to firebase: ', error);
+      setLoading(false);
+      return null;
+    }
+  };
+
   const handleUpadteProfile = async () => {
     try {
       let phoneValid = false;
+      let dataOfbithValid = false;
 
       if (fullName == '') {
         setNameError('Please enter your name!');
@@ -92,8 +125,59 @@ export default function ProfileScreen() {
         phoneValid = true;
       }
 
-      if (fullName.length > 0 && phoneValid) {
-        Alert.alert('ok');
+      if (dateOfBirth !== '') {
+        if (moment(dateOfBirth, 'DD-MM-YYYY', true).isValid()) {
+          let currentDate = new Date();
+          let currentYear = currentDate.getFullYear();
+          let yy = dateOfBirth?.split('-')[2];
+          if (yy <= currentYear) {
+            setDateOfBirthError('');
+            dataOfbithValid = true;
+          } else {
+            dataOfbithValid = false;
+            setDateOfBirthError('Enter valid date of birth!');
+          }
+        } else {
+          dataOfbithValid = false;
+          setDateOfBirthError('Enter valid date of birth!');
+        }
+      } else {
+        setDateOfBirthError('');
+        dataOfbithValid = true;
+      }
+
+      if (fullName.length > 0 && phoneValid && dataOfbithValid) {
+        let newImgUrl = userAllData?.imageUrl;
+        if (selectedImg !== '') {
+          newImgUrl = await handleUploadImage();
+        }
+
+        setLoading(true);
+        await auth()?.currentUser?.updateProfile({
+          displayName: fullName,
+          photoURL: newImgUrl,
+        });
+        await firestore()
+          .collection('users')
+          .doc(auth().currentUser.uid)
+          .update({
+            fullName: fullName,
+            phoneNumber: phone,
+            dateOfBirth: dateOfBirth,
+            imageUrl: newImgUrl,
+          })
+          .then(() => {
+            setLoading(false);
+            console.log('profile is updated successfully!');
+            navigation.goBack();
+          })
+          .catch(er => {
+            setLoading(false);
+            console.log(
+              'error while uopdating data of user in firestore: ',
+              er,
+            );
+          });
       }
     } catch (error) {
       console.log('Error in updating profile: ', error);
@@ -154,6 +238,7 @@ export default function ProfileScreen() {
                     if (text.length > 0) {
                       setNameError('');
                     }
+                    setIsAnyChanges(true);
                   } else {
                     setFullName('');
                   }
@@ -175,12 +260,21 @@ export default function ProfileScreen() {
                 onChangeText={text => {
                   if (text.trim().length) {
                     setDateOfBirth(text);
+                    setIsAnyChanges(true);
                   } else {
                     setDateOfBirth('');
                   }
                 }}
                 maxLength={10}
+                inputStyle={{
+                  marginBottom: dateOfBirthError !== '' ? 4 : 10,
+                  borderWidth: dateOfBirthError !== '' ? 1 : 0,
+                  borderColor: dateOfBirthError !== '' ? colors.red : null,
+                }}
               />
+              {dateOfBirthError !== '' && (
+                <Text style={styles.errorTxt}>{dateOfBirthError}</Text>
+              )}
 
               <Text style={styles.label}>Email</Text>
               <TextInputComponent
@@ -197,6 +291,7 @@ export default function ProfileScreen() {
                 onChangeText={text => {
                   if (text.trim().length) {
                     setPhone(text);
+                    setIsAnyChanges(true);
                   } else {
                     setPhone('');
                   }
@@ -215,7 +310,14 @@ export default function ProfileScreen() {
               <ButtonComponent
                 title="Save"
                 style={styles.btn}
-                onPress={handleUpadteProfile}
+                onPress={() => {
+                  if (isAnyChanges) {
+                    handleUpadteProfile();
+                  } else {
+                    navigation.goBack();
+                  }
+                }}
+                loading={loading}
               />
             </View>
           </ScrollView>
