@@ -7,10 +7,12 @@ import colors from '../config/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {getResponsiveHeight} from '../helper/getResponsive';
 import useAuth from '../auth/useAuth';
+import {useNavigation} from '@react-navigation/native';
 
-function CustomDrawer({navigation}) {
+function CustomDrawer(props) {
   const insect = useSafeAreaInsets();
   const {logout} = useAuth();
+  const navigation = useNavigation();
 
   const handleLogout = () => {
     try {

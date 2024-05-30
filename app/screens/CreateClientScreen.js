@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  ImageBackground,
   StyleSheet,
   Platform,
   StatusBar,
@@ -10,7 +9,6 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import ScreenComponent from '../components/ScreenComponent';
 import colors from '../config/colors';
 import TopCompoWithHeading from '../components/TopCompoWithHeading';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -38,8 +36,17 @@ export default function CreateClientScreen() {
   const [insuranceInfo, setInsuranceInfo] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [selectedImgError, setSelectedImgError] = useState('');
   const [fullNameError, setFullNameError] = useState('');
   const [dateOfBirthError, setDateOfBirthError] = useState('');
+
+  const [financialInfoError, setFinancialInfoError] = useState('');
+  const [personalInfoError, setPersonalInfoError] = useState('');
+  const [investmentInfoError, setInvestmentInfoError] = useState('');
+
+  const [taxInfoError, setTaxInfoError] = useState('');
+  const [estateInfoError, setEstateInfoError] = useState('');
+  const [insuranceInfoError, setInsuranceInfoError] = useState('');
 
   const handlePickImage = async () => {
     try {
@@ -105,44 +112,116 @@ export default function CreateClientScreen() {
           setDateOfBirthError('Enter valid date of birth!');
         }
       } else {
-        setDateOfBirthError('');
-        dataOfbithValid = true;
+        setDateOfBirthError('Date of birth is required!');
+        dataOfbithValid = false;
+      }
+
+      if (financialInfo === '') {
+        setFinancialInfoError('Financial information is required!');
+      } else {
+        if (financialInfo.length < 50) {
+          setFinancialInfoError(
+            'Financial information required minimum 50 characters!',
+          );
+        } else {
+          setFinancialInfoError('');
+        }
+      }
+
+      if (personalInfo === '') {
+        setPersonalInfoError('Personal information is required!');
+      } else {
+        if (personalInfo.length < 50) {
+          setPersonalInfoError(
+            'Personal information required minimum 50 characters!',
+          );
+        } else {
+          setPersonalInfoError('');
+        }
+      }
+
+      if (investmentInfo === '') {
+        setInvestmentInfoError('Investment information is required!');
+      } else {
+        if (investmentInfo.length < 50) {
+          setInvestmentInfoError(
+            'Investment information required minimum 50 characters!',
+          );
+        } else {
+          setInvestmentInfoError('');
+        }
+      }
+
+      if (taxInfo === '') {
+        setTaxInfoError('Tax information is required!');
+      } else {
+        if (taxInfo.length < 50) {
+          setTaxInfoError('Tax information required minimum 50 characters!');
+        } else {
+          setTaxInfoError('');
+        }
+      }
+
+      if (estateInfo === '') {
+        setEstateInfoError('Tax information is required!');
+      } else {
+        if (estateInfo.length < 50) {
+          setEstateInfoError('Tax information required minimum 50 characters!');
+        } else {
+          setEstateInfoError('');
+        }
+      }
+
+      if (insuranceInfo === '') {
+        setInsuranceInfoError('Tax information is required!');
+      } else {
+        if (insuranceInfo.length < 50) {
+          setInsuranceInfoError(
+            'Tax information required minimum 50 characters!',
+          );
+        } else {
+          setInsuranceInfoError('');
+        }
       }
 
       if (fullName !== '' && dataOfbithValid) {
-        let clientImageUrl = '';
-        if (selectedImg !== '') {
-          clientImageUrl = await handleUploadImage();
-        }
-        setLoading(true);
-        console.log('client uploading image: ', clientImageUrl);
-        firestore()
-          .collection('clientProfiles')
-          .add({
-            fullName,
-            dateOfBirth,
-            financialInfo,
-            personalInfo,
-            investmentInfo,
-            taxInfo,
-            estateInfo,
-            insuranceInfo,
-            imageURL: clientImageUrl,
-            time: new Date(),
-            userUid: auth().currentUser.uid,
-          })
-          .then(docRef => {
-            Alert.alert('Client data is uploaded successfully!');
-            setLoading(false);
-          })
-          .catch(er => {
-            console.log(
-              'getting error while uploading client data to firestore: ',
-              er,
-            );
-            setLoading(false);
-          });
+        Alert.alert('Ok');
       }
+
+      // if (fullName !== '' && dataOfbithValid) {
+      //   let clientImageUrl = '';
+      //   if (selectedImg !== '') {
+      //     clientImageUrl = await handleUploadImage();
+      //   }
+      //   setLoading(true);
+      //   console.log('client uploading image: ', clientImageUrl);
+      //   firestore()
+      //     .collection('clientProfiles')
+      //     .add({
+      //       fullName,
+      //       dateOfBirth,
+      //       financialInfo,
+      //       personalInfo,
+      //       investmentInfo,
+      //       taxInfo,
+      //       estateInfo,
+      //       insuranceInfo,
+      //       imageURL: clientImageUrl,
+      //       time: new Date(),
+      //       userUid: auth().currentUser.uid,
+      //     })
+      //     .then(docRef => {
+      //       Alert.alert('Client data is uploaded successfully!');
+      //       setLoading(false);
+      //     })
+      //     .catch(er => {
+      //       console.log(
+      //         'getting error while uploading client data to firestore: ',
+      //         er,
+      //       );
+      //       setLoading(false);
+      //     });
+      // }
     } catch (error) {
       setLoading(false);
       console.log(
@@ -195,6 +274,9 @@ export default function CreateClientScreen() {
               onChangeText={text => {
                 if (text.trim().length) {
                   setFullName(text);
+                  if (text.length > 0) {
+                    setFullNameError('');
+                  }
                 } else {
                   setFullName('');
                 }
@@ -231,7 +313,10 @@ export default function CreateClientScreen() {
               <Text style={styles.errorTxt}>{dateOfBirthError}</Text>
             )}
             <Text style={styles.label}>Financial Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: financialInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
                 placeholder="Enter Financial Information"
                 value={financialInfo}
@@ -242,17 +327,30 @@ export default function CreateClientScreen() {
                     setFinancialInfo('');
                   }
                 }}
-                maxLength={100}
-                inputStyle={styles.input}
+                maxLength={500}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: financialInfoError !== '' ? 1 : 0,
+                    borderColor: financialInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
-              <Text style={styles.textInputLengthTxt}>
-                {financialInfo.length}/100
+              <Text style={[styles.textInputLengthTxt]}>
+                {financialInfo.length}/500
               </Text>
             </View>
+            {financialInfoError !== '' && (
+              <Text style={styles.errorTxt}>{financialInfoError}</Text>
+            )}
+
             <Text style={styles.label}>Personal Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: personalInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
                 placeholder="Enter Personal Information"
                 value={personalInfo}
@@ -264,16 +362,29 @@ export default function CreateClientScreen() {
                   }
                 }}
                 maxLength={100}
-                inputStyle={styles.input}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: financialInfoError !== '' ? 1 : 0,
+                    borderColor: financialInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
               <Text style={styles.textInputLengthTxt}>
-                {personalInfo.length}/100
+                {personalInfo.length}/500
               </Text>
             </View>
+            {personalInfoError !== '' && (
+              <Text style={styles.errorTxt}>{personalInfoError}</Text>
+            )}
+
             <Text style={styles.label}>Investment Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: investmentInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
                 placeholder="Enter Investment Information"
                 value={investmentInfo}
@@ -285,16 +396,29 @@ export default function CreateClientScreen() {
                   }
                 }}
                 maxLength={100}
-                inputStyle={styles.input}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: investmentInfoError !== '' ? 1 : 0,
+                    borderColor: investmentInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
               <Text style={styles.textInputLengthTxt}>
-                {investmentInfo.length}/100
+                {investmentInfo.length}/500
               </Text>
             </View>
+            {investmentInfoError !== '' && (
+              <Text style={styles.errorTxt}>{investmentInfoError}</Text>
+            )}
+
             <Text style={styles.label}>Tax Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: taxInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
                 placeholder="Enter Tax Information"
                 value={taxInfo}
@@ -305,17 +429,29 @@ export default function CreateClientScreen() {
                     setTaxInfo('');
                   }
                 }}
-                maxLength={100}
-                inputStyle={styles.input}
+                maxLength={500}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: taxInfoError !== '' ? 1 : 0,
+                    borderColor: taxInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
               <Text style={styles.textInputLengthTxt}>
-                {taxInfo.length}/100
+                {taxInfo.length}/500
               </Text>
             </View>
+            {taxInfoError !== '' && (
+              <Text style={styles.errorTxt}>{taxInfoError}</Text>
+            )}
             <Text style={styles.label}>Estate Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: estateInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
                 placeholder="Enter Estate Information"
                 value={estateInfo}
@@ -326,8 +462,14 @@ export default function CreateClientScreen() {
                     setEstateInfo('');
                   }
                 }}
-                maxLength={100}
-                inputStyle={styles.input}
+                maxLength={500}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: estateInfoError !== '' ? 1 : 0,
+                    borderColor: estateInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
@@ -418,6 +560,7 @@ const styles = StyleSheet.create({
   input: {
     height: 110,
     alignItems: 'flex-start',
+    marginBottom: 0,
   },
   textInput: {
     alignItems: 'flex-start',
@@ -425,7 +568,7 @@ const styles = StyleSheet.create({
   },
   textInputLengthTxt: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 8,
     right: 14,
     color: colors.black_light,
     fontFamily: fontFamily.regular,
