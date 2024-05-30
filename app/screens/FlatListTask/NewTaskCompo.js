@@ -5,21 +5,35 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import colors from '../../config/colors';
 import FastImage from 'react-native-fast-image';
 
 const screenWidth = Dimensions.get('window').width;
 
-const NewTaskCompo = ({data, index}) => {
+const NewTaskCompo = ({data, index, listNum, listIndex, setIsListScroll}) => {
+  const [listDetail, setListDetail] = useState({
+    index: null,
+    listNo: null,
+  });
+  const handleOnPress = () => {
+    if (listDetail.index == index && listDetail.listNo == listNum) {
+      setListDetail({
+        index: null,
+        listNo: null,
+      });
+      setIsListScroll(true);
+    } else {
+      setListDetail({
+        index: index,
+        listNo: listNum,
+      });
+      setIsListScroll(false);
+    }
+  };
+
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          marginLeft: index === 0 ? 20 : 0,
-        },
-      ]}>
+    <View style={styles.container}>
       <FastImage
         source={{uri: data?.img}}
         style={styles.image}
@@ -28,10 +42,14 @@ const NewTaskCompo = ({data, index}) => {
       <TouchableOpacity
         style={styles.iconContainer}
         activeOpacity={0.6}
-        onPress={() => console.log(index)}>
+        onPress={handleOnPress}>
         <Image
-          source={require('../../assets/pin-unfill.png')}
-          style={styles.icon}
+          source={
+            listDetail.listNo == listNum && listDetail.index == listIndex
+              ? require('../../assets/pin-fill.png')
+              : require('../../assets/pin-unfill.png')
+          }
+          style={[styles.icon]}
         />
       </TouchableOpacity>
     </View>

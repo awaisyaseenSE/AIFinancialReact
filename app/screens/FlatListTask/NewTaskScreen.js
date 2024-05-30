@@ -1,11 +1,10 @@
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  FlatList,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import ScreenComponent from '../../components/ScreenComponent';
@@ -18,15 +17,90 @@ import {
   listData4,
 } from '../../helper/dummyData';
 import NewTaskCompo from './NewTaskCompo';
+import Carousel from 'react-native-snap-carousel';
+
+const screenWidth = Dimensions.get('window').width;
 
 export default function NewTaskScreen() {
   const [selectedList, setSelectedList] = useState(2);
 
-  const flatListRef = useRef(null);
-  const scrollToEnd = () => {
-    if (flatListRef?.current) {
-      flatListRef?.current?.scrollToEnd({animated: true});
+  const [list1Index, setList1Index] = useState(1);
+  const [isList1Scroll, setIsList1Scroll] = useState(true);
+
+  const [list2Index, setList2Index] = useState(1);
+  const [isList2Scroll, setIsList2Scroll] = useState(true);
+
+  const [list3Index, setList3Index] = useState(1);
+  const [isList3Scroll, setIsList3Scroll] = useState(true);
+
+  const [list4Index, setList4Index] = useState(1);
+  const [isList4Scroll, setIsList4Scroll] = useState(true);
+
+  const flatListRef3 = useRef(null);
+  const flatListRef1 = useRef(null);
+  const flatListRef2 = useRef(null);
+  const flatListRef4 = useRef(null);
+
+  function getRandom(min, max) {
+    const floatRandom = Math.random();
+
+    const difference = max - min;
+
+    // random between 0 and the difference
+    const random = Math.round(difference * floatRandom);
+
+    const randomWithinRange = random + min;
+
+    return randomWithinRange;
+  }
+
+  const RandomizePosition = () => {
+    if (isList1Scroll) {
+      let leng = listData1.length - 1;
+      let num = getRandom(0, leng);
+
+      if (num == list1Index) {
+        num = getRandom(0, leng);
+      }
+      flatListRef1?.current?.snapToItem(num, true);
     }
+
+    if (isList2Scroll) {
+      let leng = listData2.length - 1;
+      let num = getRandom(0, leng);
+
+      if (num == list1Index) {
+        num = getRandom(0, leng);
+      }
+      flatListRef2?.current?.snapToItem(num, true);
+    }
+
+    if (isList3Scroll) {
+      let leng = listData3.length - 1;
+      let num = getRandom(0, leng);
+
+      if (num == list3Index) {
+        num = getRandom(0, leng);
+      }
+      flatListRef3?.current?.snapToItem(num, true);
+    }
+
+    if (isList4Scroll) {
+      let leng = listData4.length - 1;
+      let num = getRandom(0, leng);
+
+      if (num == list1Index) {
+        num = getRandom(0, leng);
+      }
+      flatListRef4?.current?.snapToItem(num, true);
+    }
+  };
+
+  const handleShowIndex = () => {
+    console.log('Current Index of List 1: ', list1Index);
+    console.log('Current Index of List 2: ', list2Index);
+    console.log('Current Index of List 3: ', list3Index);
+    console.log('Current Index of List 4: ', list4Index);
   };
 
   return (
@@ -36,47 +110,117 @@ export default function NewTaskScreen() {
           title="New Task"
           rightIcon={require('../../assets/right-arrow.png')}
           rightIconStyle={styles.topRightIcon}
+          onPressRight={handleShowIndex}
         />
         <View style={styles.container}>
-          <FlatList
+          <Carousel
             data={listData1}
+            ref={flatListRef1}
             renderItem={({item, index}) => (
-              <NewTaskCompo data={item} index={index} />
+              <NewTaskCompo
+                data={item}
+                index={index}
+                listNum={1}
+                setIsListScroll={setIsList1Scroll}
+                listIndex={list1Index}
+              />
             )}
-            horizontal
-            keyExtractor={(item, index) => index.toString()}
-            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{overflow: 'visible'}}
+            firstItem={1}
+            sliderWidth={screenWidth}
+            itemWidth={screenWidth * 0.52}
+            slideStyle={{alignItems: 'center'}}
+            inactiveSlideOpacity={0.75}
+            inactiveSlideScale={0.77}
+            ListEmptyComponent={() => (
+              <ActivityIndicator size={'large'} color={colors.red} />
+            )}
+            onSnapToItem={index => {
+              // console.log('current index of snap is: ', index);
+              setList1Index(index);
+            }}
           />
-          <FlatList
+          <Carousel
             data={listData2}
+            ref={flatListRef2}
             renderItem={({item, index}) => (
-              <NewTaskCompo data={item} index={index} />
+              <NewTaskCompo
+                data={item}
+                index={index}
+                listNum={2}
+                setIsListScroll={setIsList2Scroll}
+                listIndex={list2Index}
+              />
             )}
-            horizontal
-            keyExtractor={(item, index) => index.toString()}
-            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{overflow: 'visible'}}
+            firstItem={1}
+            sliderWidth={screenWidth}
+            itemWidth={screenWidth * 0.52}
+            slideStyle={{alignItems: 'center'}}
+            inactiveSlideOpacity={0.75}
+            inactiveSlideScale={0.77}
+            ListEmptyComponent={() => (
+              <ActivityIndicator size={'large'} color={colors.red} />
+            )}
+            onSnapToItem={index => {
+              setList2Index(index);
+            }}
           />
           {(selectedList == 3 || selectedList == 4) && (
-            <FlatList
-              ref={flatListRef}
+            <Carousel
               data={listData3}
+              ref={flatListRef3}
               renderItem={({item, index}) => (
-                <NewTaskCompo data={item} index={index} />
+                <NewTaskCompo
+                  data={item}
+                  index={index}
+                  listNum={3}
+                  setIsListScroll={setIsList3Scroll}
+                  listIndex={list3Index}
+                />
               )}
-              horizontal
-              keyExtractor={(item, index) => index.toString()}
-              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{overflow: 'visible'}}
+              firstItem={1}
+              sliderWidth={screenWidth}
+              itemWidth={screenWidth * 0.52}
+              slideStyle={{alignItems: 'center'}}
+              inactiveSlideOpacity={0.75}
+              inactiveSlideScale={0.77}
+              ListEmptyComponent={() => (
+                <ActivityIndicator size={'large'} color={colors.red} />
+              )}
+              onSnapToItem={index => {
+                // console.log('current index of snap is: ', index);
+                setList3Index(index);
+              }}
             />
           )}
           {selectedList == 4 && (
-            <FlatList
+            <Carousel
               data={listData4}
+              ref={flatListRef4}
               renderItem={({item, index}) => (
-                <NewTaskCompo data={item} index={index} />
+                <NewTaskCompo
+                  data={item}
+                  index={index}
+                  listNum={4}
+                  setIsListScroll={setIsList4Scroll}
+                  listIndex={list4Index}
+                />
               )}
-              horizontal
-              keyExtractor={(item, index) => index.toString()}
-              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{overflow: 'visible'}}
+              firstItem={1}
+              sliderWidth={screenWidth}
+              itemWidth={screenWidth * 0.52}
+              slideStyle={{alignItems: 'center'}}
+              inactiveSlideOpacity={0.75}
+              inactiveSlideScale={0.77}
+              ListEmptyComponent={() => (
+                <ActivityIndicator size={'large'} color={colors.red} />
+              )}
+              onSnapToItem={index => {
+                setList4Index(index);
+              }}
             />
           )}
         </View>
@@ -122,7 +266,7 @@ export default function NewTaskScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.iconContainer}
-            onPress={() => scrollToEnd()}>
+            onPress={() => RandomizePosition()}>
             <Image
               source={require('../../assets/circle-random.png')}
               style={[
@@ -165,7 +309,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flex: 1,
-    // backgroundColor: 'green',
     alignItems: 'center',
     height: '100%',
     justifyContent: 'center',
