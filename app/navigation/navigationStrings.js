@@ -9,4 +9,5 @@ export default {
   ClientDetailScreen: 'ClientDetailScreen',
   ProfileScreen: 'ProfileScreen',
   FlatListTaskScreen: 'FlatListTaskScreen',
+  NewTaskScreen: 'NewTaskScreen',
 };

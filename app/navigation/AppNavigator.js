@@ -13,6 +13,7 @@ import ClientDetailScreen from '../screens/ClientDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import Animated from 'react-native-reanimated';
 import FlatListTaskScreen from '../screens/FlatListTaskScreen';
+import NewTaskScreen from '../screens/FlatListTask/NewTaskScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -101,6 +102,13 @@ function AppNavigator() {
       <Stack.Screen
         name="FlatListTaskScreen"
         component={FlatListTaskScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="NewTaskScreen"
+        component={NewTaskScreen}
         options={{
           headerShown: false,
         }}
