@@ -41,57 +41,41 @@ export default function NewTaskScreen() {
   const flatListRef2 = useRef(null);
   const flatListRef4 = useRef(null);
 
-  function getRandom(min, max) {
-    const floatRandom = Math.random();
+  function getRandomNumberExcluding(min, max, exclude) {
+    let randomNumber;
+    if (min >= max || exclude < min || exclude > max) {
+      return 0;
+    }
 
-    const difference = max - min;
+    do {
+      randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    } while (randomNumber === exclude);
 
-    // random between 0 and the difference
-    const random = Math.round(difference * floatRandom);
-
-    const randomWithinRange = random + min;
-
-    return randomWithinRange;
+    return randomNumber;
   }
 
   const RandomizePosition = () => {
     if (isList1Scroll) {
       let leng = listData1.length - 1;
-      let num = getRandom(0, leng);
-
-      if (num == list1Index) {
-        num = getRandom(0, leng);
-      }
+      let num = getRandomNumberExcluding(0, leng, list1Index);
       flatListRef1?.current?.snapToItem(num, true);
     }
 
     if (isList2Scroll) {
       let leng = listData2.length - 1;
-      let num = getRandom(0, leng);
-
-      if (num == list1Index) {
-        num = getRandom(0, leng);
-      }
+      let num = getRandomNumberExcluding(0, leng, list2Index);
       flatListRef2?.current?.snapToItem(num, true);
     }
 
     if (isList3Scroll) {
       let leng = listData3.length - 1;
-      let num = getRandom(0, leng);
-
-      if (num == list3Index) {
-        num = getRandom(0, leng);
-      }
+      let num = getRandomNumberExcluding(0, leng, list3Index);
       flatListRef3?.current?.snapToItem(num, true);
     }
 
     if (isList4Scroll) {
       let leng = listData4.length - 1;
-      let num = getRandom(0, leng);
-
-      if (num == list1Index) {
-        num = getRandom(0, leng);
-      }
+      let num = getRandomNumberExcluding(0, leng, list4Index);
       flatListRef4?.current?.snapToItem(num, true);
     }
   };
@@ -136,7 +120,6 @@ export default function NewTaskScreen() {
               <ActivityIndicator size={'large'} color={colors.red} />
             )}
             onSnapToItem={index => {
-              // console.log('current index of snap is: ', index);
               setList1Index(index);
             }}
           />
@@ -190,7 +173,6 @@ export default function NewTaskScreen() {
                 <ActivityIndicator size={'large'} color={colors.red} />
               )}
               onSnapToItem={index => {
-                // console.log('current index of snap is: ', index);
                 setList3Index(index);
               }}
             />

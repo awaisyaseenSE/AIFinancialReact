@@ -95,22 +95,14 @@ function CustomDrawer(props) {
               // navigation.closeDrawer();
             }}
           />
-          <DrawerItemListCompo
-            image={require('../assets/users.png')}
-            title="Flatlist Task"
-            onPress={() => {
-              navigation.navigate(navigationStrings.FlatListTaskScreen);
-              // navigation.closeDrawer();
-            }}
-          />
-          <DrawerItemListCompo
+          {/* <DrawerItemListCompo
             image={require('../assets/circle-4.png')}
             title="New Task"
             onPress={() => {
               navigation.navigate(navigationStrings.NewTaskScreen);
               // navigation.closeDrawer();
             }}
-          />
+          /> */}
         </View>
       </DrawerContentScrollView>
       <View style={styles.drawerFooter}>

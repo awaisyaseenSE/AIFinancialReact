@@ -8,6 +8,5 @@ export default {
   CreateClientScreen: 'CreateClientScreen',
   ClientDetailScreen: 'ClientDetailScreen',
   ProfileScreen: 'ProfileScreen',
-  FlatListTaskScreen: 'FlatListTaskScreen',
   NewTaskScreen: 'NewTaskScreen',
 };

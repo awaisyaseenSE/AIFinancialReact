@@ -100,13 +100,6 @@ function AppNavigator() {
         }}
       />
       <Stack.Screen
-        name="FlatListTaskScreen"
-        component={FlatListTaskScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
         name="NewTaskScreen"
         component={NewTaskScreen}
         options={{
