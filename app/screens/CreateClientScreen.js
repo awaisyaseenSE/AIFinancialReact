@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import colors from '../config/colors';
 import TopCompoWithHeading from '../components/TopCompoWithHeading';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -48,11 +50,23 @@ export default function CreateClientScreen() {
   const [estateInfoError, setEstateInfoError] = useState('');
   const [insuranceInfoError, setInsuranceInfoError] = useState('');
 
+  const fullNameRef = useRef(null);
+  const dateOfBirthRef = useRef(null);
+  const financialInfoRef = useRef(null);
+  const personalInfoRef = useRef(null);
+  const investmentInfoRef = useRef(null);
+  const taxInfoRef = useRef(null);
+  const estateInfoRef = useRef(null);
+  const insuranceInfoRef = useRef(null);
+
+  const scrollRef = useRef(null);
+
   const handlePickImage = async () => {
     try {
       let res = await pickImage();
       if (!!res) {
         setSelectedImg(res?.uri);
+        setSelectedImgError('');
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -89,10 +103,91 @@ export default function CreateClientScreen() {
     try {
       let dataOfbithValid = false;
 
-      if (fullName === '') {
-        setFullNameError('Client name is required!');
+      if (selectedImg === '') {
+        setSelectedImgError('Image is required!');
       } else {
-        setFullNameError('');
+        setSelectedImgError('');
+      }
+
+      if (insuranceInfo === '') {
+        setInsuranceInfoError('Insurance information is required!');
+        insuranceInfoRef?.current?.focus();
+      } else {
+        if (insuranceInfo.length < 50) {
+          setInsuranceInfoError(
+            'Insurance information required minimum 50 characters!',
+          );
+          insuranceInfoRef?.current?.focus();
+        } else {
+          setInsuranceInfoError('');
+        }
+      }
+      if (estateInfo === '') {
+        setEstateInfoError('Estate information is required!');
+        estateInfoRef?.current?.focus();
+      } else {
+        if (estateInfo.length < 50) {
+          setEstateInfoError(
+            'Estate information required minimum 50 characters!',
+          );
+          estateInfoRef?.current?.focus();
+        } else {
+          setEstateInfoError('');
+        }
+      }
+
+      if (taxInfo === '') {
+        setTaxInfoError('Tax information is required!');
+        taxInfoRef?.current?.focus();
+      } else {
+        if (taxInfo.length < 50) {
+          setTaxInfoError('Tax information required minimum 50 characters!');
+          taxInfoRef?.current?.focus();
+        } else {
+          setTaxInfoError('');
+        }
+      }
+
+      if (investmentInfo === '') {
+        setInvestmentInfoError('Investment information is required!');
+        investmentInfoRef?.current?.focus();
+      } else {
+        if (investmentInfo.length < 50) {
+          setInvestmentInfoError(
+            'Investment information required minimum 50 characters!',
+          );
+          investmentInfoRef?.current?.focus();
+        } else {
+          setInvestmentInfoError('');
+        }
+      }
+
+      if (personalInfo === '') {
+        setPersonalInfoError('Personal information is required!');
+        personalInfoRef?.current?.focus();
+      } else {
+        if (personalInfo.length < 50) {
+          setPersonalInfoError(
+            'Personal information required minimum 50 characters!',
+          );
+          personalInfoRef?.current?.focus();
+        } else {
+          setPersonalInfoError('');
+        }
+      }
+
+      if (financialInfo === '') {
+        setFinancialInfoError('Financial information is required!');
+        financialInfoRef?.current?.focus();
+      } else {
+        if (financialInfo.length < 50) {
+          setFinancialInfoError(
+            'Financial information required minimum 50 characters!',
+          );
+          financialInfoRef?.current?.focus();
+        } else {
+          setFinancialInfoError('');
+        }
       }
 
       if (dateOfBirth !== '') {
@@ -116,112 +211,57 @@ export default function CreateClientScreen() {
         dataOfbithValid = false;
       }
 
-      if (financialInfo === '') {
-        setFinancialInfoError('Financial information is required!');
+      if (fullName === '') {
+        setFullNameError('Client name is required!');
+        fullNameRef?.current?.focus();
       } else {
-        if (financialInfo.length < 50) {
-          setFinancialInfoError(
-            'Financial information required minimum 50 characters!',
-          );
-        } else {
-          setFinancialInfoError('');
+        setFullNameError('');
+      }
+
+      if (
+        selectedImg !== '' &&
+        fullName !== '' &&
+        dataOfbithValid &&
+        financialInfo.length > 49 &&
+        personalInfo.length > 49 &&
+        investmentInfo.length > 49 &&
+        taxInfo.length > 49 &&
+        estateInfo.length > 49 &&
+        insuranceInfo.length > 49
+      ) {
+        let clientImageUrl = '';
+        if (selectedImg !== '') {
+          clientImageUrl = await handleUploadImage();
         }
+        setLoading(true);
+        console.log('client uploading image: ', clientImageUrl);
+        firestore()
+          .collection('clientProfiles')
+          .add({
+            fullName,
+            dateOfBirth,
+            financialInfo,
+            personalInfo,
+            investmentInfo,
+            taxInfo,
+            estateInfo,
+            insuranceInfo,
+            imageURL: clientImageUrl,
+            time: new Date(),
+            userUid: auth().currentUser.uid,
+          })
+          .then(docRef => {
+            Alert.alert('Client data is uploaded successfully!');
+            setLoading(false);
+          })
+          .catch(er => {
+            console.log(
+              'getting error while uploading client data to firestore: ',
+              er,
+            );
+            setLoading(false);
+          });
       }
-
-      if (personalInfo === '') {
-        setPersonalInfoError('Personal information is required!');
-      } else {
-        if (personalInfo.length < 50) {
-          setPersonalInfoError(
-            'Personal information required minimum 50 characters!',
-          );
-        } else {
-          setPersonalInfoError('');
-        }
-      }
-
-      if (investmentInfo === '') {
-        setInvestmentInfoError('Investment information is required!');
-      } else {
-        if (investmentInfo.length < 50) {
-          setInvestmentInfoError(
-            'Investment information required minimum 50 characters!',
-          );
-        } else {
-          setInvestmentInfoError('');
-        }
-      }
-
-      if (taxInfo === '') {
-        setTaxInfoError('Tax information is required!');
-      } else {
-        if (taxInfo.length < 50) {
-          setTaxInfoError('Tax information required minimum 50 characters!');
-        } else {
-          setTaxInfoError('');
-        }
-      }
-
-      if (estateInfo === '') {
-        setEstateInfoError('Tax information is required!');
-      } else {
-        if (estateInfo.length < 50) {
-          setEstateInfoError('Tax information required minimum 50 characters!');
-        } else {
-          setEstateInfoError('');
-        }
-      }
-
-      if (insuranceInfo === '') {
-        setInsuranceInfoError('Tax information is required!');
-      } else {
-        if (insuranceInfo.length < 50) {
-          setInsuranceInfoError(
-            'Tax information required minimum 50 characters!',
-          );
-        } else {
-          setInsuranceInfoError('');
-        }
-      }
-
-      if (fullName !== '' && dataOfbithValid) {
-        Alert.alert('Ok');
-      }
-
-      // if (fullName !== '' && dataOfbithValid) {
-      //   let clientImageUrl = '';
-      //   if (selectedImg !== '') {
-      //     clientImageUrl = await handleUploadImage();
-      //   }
-      //   setLoading(true);
-      //   console.log('client uploading image: ', clientImageUrl);
-      //   firestore()
-      //     .collection('clientProfiles')
-      //     .add({
-      //       fullName,
-      //       dateOfBirth,
-      //       financialInfo,
-      //       personalInfo,
-      //       investmentInfo,
-      //       taxInfo,
-      //       estateInfo,
-      //       insuranceInfo,
-      //       imageURL: clientImageUrl,
-      //       time: new Date(),
-      //       userUid: auth().currentUser.uid,
-      //     })
-      //     .then(docRef => {
-      //       Alert.alert('Client data is uploaded successfully!');
-      //       setLoading(false);
-      //     })
-      //     .catch(er => {
-      //       console.log(
-      //         'getting error while uploading client data to firestore: ',
-      //         er,
-      //       );
-      //       setLoading(false);
-      //     });
-      // }
     } catch (error) {
       setLoading(false);
       console.log(
@@ -255,7 +295,13 @@ export default function CreateClientScreen() {
                 ? {uri: selectedImg}
                 : require('../assets/avatar.png')
             }
-            style={styles.profileImage}
+            style={[
+              styles.profileImage,
+              {
+                borderColor:
+                  selectedImgError !== '' ? colors.red : colors.white,
+              },
+            ]}
           />
           <Image
             source={require('../assets/edit-pen.png')}
@@ -266,9 +312,22 @@ export default function CreateClientScreen() {
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           enableOnAndroid={true}>
+          {/* <KeyboardAvoidingView
+          style={{
+            flex: 1,
+            width: '100%',
+          }}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          enabled
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 0}>
+          <ScrollView
+            style={{flex: 1}}
+            showsVerticalScrollIndicator={false}
+            ref={scrollRef}> */}
           <View style={{paddingHorizontal: 20, marginTop: 12}}>
             <Text style={styles.label}>Full Name</Text>
             <TextInputComponent
+              // innerRef={fullNameRef}
               placeholder="Enter full name"
               value={fullName}
               onChangeText={text => {
@@ -318,11 +377,15 @@ export default function CreateClientScreen() {
                 marginBottom: financialInfoError !== '' ? 4 : 10,
               }}>
               <TextInputComponent
+                // innerRef={financialInfoRef}
                 placeholder="Enter Financial Information"
                 value={financialInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setFinancialInfo(text);
+                    if (text.length > 49) {
+                      setFinancialInfoError('');
+                    }
                   } else {
                     setFinancialInfo('');
                   }
@@ -352,21 +415,25 @@ export default function CreateClientScreen() {
                 marginBottom: personalInfoError !== '' ? 4 : 10,
               }}>
               <TextInputComponent
+                // innerRef={personalInfoRef}
                 placeholder="Enter Personal Information"
                 value={personalInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setPersonalInfo(text);
+                    if (text.length > 49) {
+                      setPersonalInfoError('');
+                    }
                   } else {
                     setPersonalInfo('');
                   }
                 }}
-                maxLength={100}
+                maxLength={500}
                 inputStyle={{
                   ...styles.input,
                   ...{
-                    borderWidth: financialInfoError !== '' ? 1 : 0,
-                    borderColor: financialInfoError !== '' ? colors.red : null,
+                    borderWidth: personalInfoError !== '' ? 1 : 0,
+                    borderColor: personalInfoError !== '' ? colors.red : null,
                   },
                 }}
                 textStyle={styles.textInput}
@@ -386,16 +453,20 @@ export default function CreateClientScreen() {
                 marginBottom: investmentInfoError !== '' ? 4 : 10,
               }}>
               <TextInputComponent
+                // innerRef={investmentInfoRef}
                 placeholder="Enter Investment Information"
                 value={investmentInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setInvestmentInfo(text);
+                    if (text.length > 49) {
+                      setInvestmentInfoError('');
+                    }
                   } else {
                     setInvestmentInfo('');
                   }
                 }}
-                maxLength={100}
+                maxLength={500}
                 inputStyle={{
                   ...styles.input,
                   ...{
@@ -420,11 +491,15 @@ export default function CreateClientScreen() {
                 marginBottom: taxInfoError !== '' ? 4 : 10,
               }}>
               <TextInputComponent
+                // innerRef={taxInfoRef}
                 placeholder="Enter Tax Information"
                 value={taxInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setTaxInfo(text);
+                    if (text.length > 49) {
+                      setTaxInfoError('');
+                    }
                   } else {
                     setTaxInfo('');
                   }
@@ -453,11 +528,15 @@ export default function CreateClientScreen() {
                 marginBottom: estateInfoError !== '' ? 4 : 10,
               }}>
               <TextInputComponent
+                // innerRef={estateInfoRef}
                 placeholder="Enter Estate Information"
                 value={estateInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setEstateInfo(text);
+                    if (text.length > 49) {
+                      setEstateInfoError('');
+                    }
                   } else {
                     setEstateInfo('');
                   }
@@ -474,30 +553,49 @@ export default function CreateClientScreen() {
                 multiline
               />
               <Text style={styles.textInputLengthTxt}>
-                {estateInfo.length}/100
+                {estateInfo.length}/500
               </Text>
             </View>
+            {estateInfoError !== '' && (
+              <Text style={styles.errorTxt}>{estateInfoError}</Text>
+            )}
             <Text style={styles.label}>Insurance Information</Text>
-            <View>
+            <View
+              style={{
+                marginBottom: insuranceInfoError !== '' ? 4 : 10,
+              }}>
               <TextInputComponent
+                // innerRef={insuranceInfoRef}
                 placeholder="Enter Insurance Information"
                 value={insuranceInfo}
                 onChangeText={text => {
                   if (text.trim().length) {
                     setInsuranceInfo(text);
+                    if (text.length > 49) {
+                      setInsuranceInfoError('');
+                    }
                   } else {
                     setInsuranceInfo('');
                   }
                 }}
-                maxLength={100}
-                inputStyle={styles.input}
+                maxLength={500}
+                inputStyle={{
+                  ...styles.input,
+                  ...{
+                    borderWidth: insuranceInfoError !== '' ? 1 : 0,
+                    borderColor: insuranceInfoError !== '' ? colors.red : null,
+                  },
+                }}
                 textStyle={styles.textInput}
                 multiline
               />
               <Text style={styles.textInputLengthTxt}>
-                {insuranceInfo.length}/100
+                {insuranceInfo.length}/500
               </Text>
             </View>
+            {insuranceInfoError !== '' && (
+              <Text style={styles.errorTxt}>{insuranceInfoError}</Text>
+            )}
             <ButtonComponent
               title="Submit"
               style={styles.btn}
@@ -506,6 +604,8 @@ export default function CreateClientScreen() {
               loading={loading}
             />
           </View>
+          {/* </ScrollView>
+        </KeyboardAvoidingView> */}
         </KeyboardAwareScrollView>
       </View>
     </>
@@ -565,13 +665,16 @@ const styles = StyleSheet.create({
   textInput: {
     alignItems: 'flex-start',
     paddingTop: 14,
+    // backgroundColor: 'gray',
+    height: '82%',
   },
   textInputLengthTxt: {
     position: 'absolute',
-    bottom: 8,
-    right: 14,
+    bottom: 6,
+    right: 12,
     color: colors.black_light,
     fontFamily: fontFamily.regular,
+    fontSize: 12,
   },
   btn: {
     marginVertical: 30,

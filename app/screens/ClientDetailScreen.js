@@ -6,14 +6,16 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Button,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import ScreenComponent from '../components/ScreenComponent';
 import TopCompoWithHeading from '../components/TopCompoWithHeading';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import colors from '../config/colors';
 import fontFamily from '../config/fontFamily';
+import ShowClientDetailModal from '../components/ShowClientDetailModal';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -21,7 +23,10 @@ const screenHeight = Dimensions.get('window').height;
 export default function ClientDetailScreen({route}) {
   const navigation = useNavigation();
   const data = route?.params?.clientData;
-  //   console.log('data in detail screen: ', data);
+  const [selectedData, setSelectedData] = useState('');
+  const [selectedID, setSelectedID] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
   const clientDetailInfo = [
     {
       id: 'financialInfo',
@@ -49,6 +54,38 @@ export default function ClientDetailScreen({route}) {
     },
   ];
 
+  const handleGetData = id => {
+    if (id == 'financialInfo') {
+      setSelectedData(data?.financialInfo);
+      setSelectedID('financialInfo');
+      setShowModal(true);
+    } else if (id == 'personalInfo') {
+      setSelectedData(data?.personalInfo);
+      setSelectedID('personalInfo');
+      setShowModal(true);
+    } else if (id == 'taxInfo') {
+      setSelectedData(data?.taxInfo);
+      setSelectedID('taxInfo');
+      setShowModal(true);
+    } else if (id == 'investmentInfo') {
+      setSelectedData(data?.investmentInfo);
+      setSelectedID('investmentInfo');
+      setShowModal(true);
+    } else if (id == 'estateInfo') {
+      setSelectedData(data?.estateInfo);
+      setSelectedID('estateInfo');
+      setShowModal(true);
+    } else if (id == 'insuranceInfo') {
+      setSelectedData(data?.insuranceInfo);
+      setSelectedID('insuranceInfo');
+      setShowModal(true);
+    } else {
+      setSelectedData('');
+      setSelectedID('');
+      setShowModal(false);
+    }
+  };
+
   const renderItem = ({item, index}) => {
     let isEven = index % 2 == 0 ? true : false;
     return (
@@ -59,7 +96,8 @@ export default function ClientDetailScreen({route}) {
             marginRight: isEven ? 6 : 0,
             marginLeft: isEven ? 0 : 6,
           },
-        ]}>
+        ]}
+        onPress={() => handleGetData(item.id)}>
         <Text style={styles.cardText}>
           {item?.title?.split(' ')[0]}
           {'\n'}
@@ -98,6 +136,15 @@ export default function ClientDetailScreen({route}) {
           keyExtractor={(item, index) => index.toString()}
           numColumns={2}
         />
+        {showModal && (
+          <ShowClientDetailModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            data={selectedData}
+            selectedID={selectedID}
+          />
+        )}
+        {/* <Button title="get data" onPress={() => console.log(selectedData)} /> */}
       </View>
     </ScreenComponent>
   );

@@ -16,7 +16,7 @@ function CustomDrawer(props) {
 
   const handleLogout = () => {
     try {
-      Alert.alert('SignOut', 'Are you sure to SignOut!', [
+      Alert.alert('Signout', 'Are you sure to SignOut!', [
         {
           text: 'Yes',
           onPress: logout,
@@ -95,14 +95,14 @@ function CustomDrawer(props) {
               // navigation.closeDrawer();
             }}
           />
-          {/* <DrawerItemListCompo
+          <DrawerItemListCompo
             image={require('../assets/circle-4.png')}
             title="New Task"
             onPress={() => {
               navigation.navigate(navigationStrings.NewTaskScreen);
               // navigation.closeDrawer();
             }}
-          /> */}
+          />
         </View>
       </DrawerContentScrollView>
       <View style={styles.drawerFooter}>

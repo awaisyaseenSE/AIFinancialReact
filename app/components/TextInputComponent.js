@@ -26,6 +26,7 @@ const TextInputComponent = ({
   leftIconStyle,
   onPress,
   loading = false,
+  innerRef,
   ...props
 }) => {
   return (
@@ -42,6 +43,7 @@ const TextInputComponent = ({
         </TouchableOpacity>
       )}
       <TextInput
+        ref={innerRef}
         style={{...styles.textStyle, ...textStyle}}
         value={value}
         placeholder={placeholder}
