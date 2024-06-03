@@ -10,6 +10,7 @@ import auth from '@react-native-firebase/auth';
 import useAuths from '../auth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import navigationStrings from '../navigation/navigationStrings';
+import MyIndicator from '../components/MyIndicator';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -200,6 +201,7 @@ export default function LoginScreen() {
           </View>
         </View>
       </View>
+      <MyIndicator visible={loading} />
     </>
   );
 }
