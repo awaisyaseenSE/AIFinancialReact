@@ -8,7 +8,6 @@ import {
   StatusBar,
   ScrollView,
   KeyboardAvoidingView,
-  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../config/colors';
@@ -25,6 +24,7 @@ import ButtonComponent from '../components/ButtonComponent';
 import {validatePhoneNumber} from '../helper/validation';
 import moment from 'moment';
 import storage from '@react-native-firebase/storage';
+import MyIndicator from '../components/MyIndicator';
 
 export default function ProfileScreen() {
   const insect = useSafeAreaInsets();
@@ -323,6 +323,7 @@ export default function ProfileScreen() {
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
+      <MyIndicator visible={loading} />
     </>
   );
 }

@@ -90,7 +90,6 @@ function CustomDrawer(props) {
             title="Profile"
             onPress={() => {
               navigation.navigate(navigationStrings.ProfileScreen);
-              // navigation.closeDrawer();
             }}
           />
           <DrawerItemListCompo
@@ -101,14 +100,13 @@ function CustomDrawer(props) {
               // navigation.closeDrawer();
             }}
           />
-          <DrawerItemListCompo
+          {/* <DrawerItemListCompo
             image={require('../assets/circle-4.png')}
             title="New Task"
             onPress={() => {
               navigation.navigate(navigationStrings.NewTaskScreen);
-              // navigation.closeDrawer();
             }}
-          />
+          /> */}
         </View>
       </DrawerContentScrollView>
       <View style={styles.drawerFooter}>
