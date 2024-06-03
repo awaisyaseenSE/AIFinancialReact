@@ -6,26 +6,45 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  Button,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ScreenComponent from '../components/ScreenComponent';
 import TopCompoWithHeading from '../components/TopCompoWithHeading';
-import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import colors from '../config/colors';
 import fontFamily from '../config/fontFamily';
 import ShowClientDetailModal from '../components/ShowClientDetailModal';
+import firestore from '@react-native-firebase/firestore';
+import MyIndicator from '../components/MyIndicator';
 
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 export default function ClientDetailScreen({route}) {
-  const navigation = useNavigation();
   const data = route?.params?.clientData;
   const [selectedData, setSelectedData] = useState('');
   const [selectedID, setSelectedID] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [clientDetailID, setClientDetailID] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [clientFullData, setclientFullData] = useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    const unsubscribe = firestore()
+      .collection('clientProfiles')
+      .doc(data?.id)
+      .onSnapshot(snap => {
+        if (snap.exists) {
+          let fullData = {...snap.data(), id: snap.id};
+          setclientFullData(fullData);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      });
+
+    return () => unsubscribe();
+  }, []);
 
   const clientDetailInfo = [
     {
@@ -55,28 +74,30 @@ export default function ClientDetailScreen({route}) {
   ];
 
   const handleGetData = id => {
+    setClientDetailID(data?.id);
+
     if (id == 'financialInfo') {
-      setSelectedData(data?.financialInfo);
+      setSelectedData(clientFullData?.financialInfo);
       setSelectedID('financialInfo');
       setShowModal(true);
     } else if (id == 'personalInfo') {
-      setSelectedData(data?.personalInfo);
+      setSelectedData(clientFullData?.personalInfo);
       setSelectedID('personalInfo');
       setShowModal(true);
     } else if (id == 'taxInfo') {
-      setSelectedData(data?.taxInfo);
+      setSelectedData(clientFullData?.taxInfo);
       setSelectedID('taxInfo');
       setShowModal(true);
     } else if (id == 'investmentInfo') {
-      setSelectedData(data?.investmentInfo);
+      setSelectedData(clientFullData?.investmentInfo);
       setSelectedID('investmentInfo');
       setShowModal(true);
     } else if (id == 'estateInfo') {
-      setSelectedData(data?.estateInfo);
+      setSelectedData(clientFullData?.estateInfo);
       setSelectedID('estateInfo');
       setShowModal(true);
     } else if (id == 'insuranceInfo') {
-      setSelectedData(data?.insuranceInfo);
+      setSelectedData(clientFullData?.insuranceInfo);
       setSelectedID('insuranceInfo');
       setShowModal(true);
     } else {
@@ -142,10 +163,11 @@ export default function ClientDetailScreen({route}) {
             setShowModal={setShowModal}
             data={selectedData}
             selectedID={selectedID}
+            clientDetailID={clientDetailID}
           />
         )}
-        {/* <Button title="get data" onPress={() => console.log(selectedData)} /> */}
       </View>
+      <MyIndicator visible={loading} isLoaderShow={true} />
     </ScreenComponent>
   );
 }

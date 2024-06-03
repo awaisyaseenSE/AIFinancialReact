@@ -8,11 +8,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {getResponsiveHeight} from '../helper/getResponsive';
 import useAuth from '../auth/useAuth';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 function CustomDrawer(props) {
   const insect = useSafeAreaInsets();
   const {logout} = useAuth();
   const navigation = useNavigation();
+  const userPhotoUrl = auth()?.currentUser?.photoURL;
 
   const handleLogout = () => {
     try {
@@ -48,14 +50,18 @@ function CustomDrawer(props) {
         ]}>
         <View style={styles.profileImageContainer}>
           <Image
-            source={{
-              uri: 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-            }}
+            source={
+              !userPhotoUrl
+                ? require('../assets/avatar.png')
+                : {uri: userPhotoUrl}
+            }
             style={styles.profileImage}
           />
           <View style={{marginLeft: 12}}>
-            <Text style={styles.userNameText}>David Brown</Text>
-            <Text style={styles.emailTxt}>davidbrown33@gmail.com</Text>
+            <Text style={styles.userNameText}>
+              {auth()?.currentUser?.displayName}
+            </Text>
+            <Text style={styles.emailTxt}>{auth()?.currentUser?.email}</Text>
           </View>
         </View>
       </View>

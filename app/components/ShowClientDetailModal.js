@@ -13,106 +13,148 @@ import TextInputComponent from './TextInputComponent';
 import colors from '../config/colors';
 import fontFamily from '../config/fontFamily';
 import ButtonComponent from './ButtonComponent';
+import firestore from '@react-native-firebase/firestore';
+import MyIndicator from './MyIndicator';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const ShowClientDetailModal = ({data, setShowModal, showModal, selectedID}) => {
+const ShowClientDetailModal = ({
+  data,
+  setShowModal,
+  showModal,
+  selectedID,
+  clientDetailID,
+}) => {
   const [isEdit, setIsEdit] = useState(false);
   const [deatil, setDetail] = useState(data);
   const [detailError, setDetailError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
-    if (deatil === '') {
-      setDetailError(`${selectedID} information is required!`);
-    } else {
-      if (deatil.length < 50) {
-        setDetailError(
-          `${selectedID} information required minimum 50 characters!`,
-        );
+  const handleSave = async () => {
+    try {
+      if (deatil === '') {
+        setDetailError(`${selectedID} information is required!`);
       } else {
-        setDetailError('');
+        if (deatil.length < 50) {
+          setDetailError(
+            `${selectedID} information required minimum 50 characters!`,
+          );
+        } else {
+          setDetailError('');
+        }
       }
-    }
 
-    if (data === deatil) {
-      console.log('no change occur!');
-      return null;
-    }
+      if (data === deatil) {
+        console.log('no change occur!');
+        return setShowModal(false);
+      }
 
-    if (deatil.length > 49) {
-      Alert.alert('Ready for update!');
+      if (deatil.length > 49) {
+        setLoading(true);
+        firestore()
+          .collection('clientProfiles')
+          .doc(clientDetailID)
+          .update({
+            [`${selectedID}`]: deatil,
+          })
+          .then(() => {
+            setLoading(false);
+            console.log('client profile detail is updated successfully!');
+            setShowModal(false);
+          })
+          .catch(er => {
+            setLoading(false);
+            console.log(
+              'Error while updating client profile ',
+              selectedID,
+              ' :',
+              er,
+            );
+            setShowModal(false);
+          });
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(
+        'Error while updating client profile detail in modal: ',
+        error,
+      );
+      setShowModal(false);
     }
   };
 
   return (
-    <Modal visible={showModal} transparent animationType="slide">
-      <View style={styles.topContainer}>
-        <TouchableOpacity
-          style={{flex: 1}}
-          onPress={() => setShowModal(false)}
-        />
-        <View style={styles.container}>
-          <View style={{flex: 1}}>
-            <View>
-              <TextInputComponent
-                placeholder={`Enter client ${selectedID} detail`}
-                inputStyle={{
-                  ...styles.input,
-                  ...{
-                    borderWidth: detailError !== '' ? 1 : 0,
-                    borderColor: detailError !== '' ? colors.red : null,
-                  },
-                }}
-                value={deatil}
-                onChangeText={text => {
-                  if (isEdit) {
-                    if (text.trim().length) {
-                      setDetail(text);
-                      if (text.length > 49) {
-                        setDetailError('');
+    <>
+      <Modal visible={showModal} transparent animationType="slide">
+        <View style={styles.topContainer}>
+          <TouchableOpacity
+            style={{flex: 1}}
+            onPress={() => setShowModal(false)}
+          />
+          <View style={styles.container}>
+            <View style={{flex: 1}}>
+              <View>
+                <TextInputComponent
+                  placeholder={`Enter client ${selectedID} detail`}
+                  inputStyle={{
+                    ...styles.input,
+                    ...{
+                      borderWidth: detailError !== '' ? 1 : 0,
+                      borderColor: detailError !== '' ? colors.red : null,
+                    },
+                  }}
+                  value={deatil}
+                  onChangeText={text => {
+                    if (isEdit) {
+                      if (text.trim().length) {
+                        setDetail(text);
+                        if (text.length > 49) {
+                          setDetailError('');
+                        }
+                      } else {
+                        setDetail('');
                       }
-                    } else {
-                      setDetail('');
                     }
-                  }
-                }}
-                maxLength={500}
-                editable={isEdit}
-                textStyle={styles.inputSty}
-                multiline
-              />
-              {isEdit && (
-                <Text style={styles.textInputLengthTxt}>
-                  {deatil.length}/500
-                </Text>
+                  }}
+                  maxLength={500}
+                  editable={isEdit}
+                  textStyle={styles.inputSty}
+                  multiline
+                />
+                {isEdit && (
+                  <Text style={styles.textInputLengthTxt}>
+                    {deatil.length}/500
+                  </Text>
+                )}
+              </View>
+              {detailError !== '' && (
+                <Text style={styles.errorTxt}>{detailError}</Text>
               )}
             </View>
-            {detailError !== '' && (
-              <Text style={styles.errorTxt}>{detailError}</Text>
+            {isEdit ? (
+              <ButtonComponent
+                title="Save"
+                style={styles.btn}
+                textStyle={styles.btnTxt}
+                onPress={handleSave}
+                loading={loading}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.editIconContainer}
+                onPress={() => setIsEdit(true)}>
+                <Image
+                  source={require('../assets/edit-pen-icon.png')}
+                  style={styles.editIcon}
+                />
+              </TouchableOpacity>
             )}
           </View>
-          {isEdit ? (
-            <ButtonComponent
-              title="Save"
-              style={styles.btn}
-              textStyle={styles.btnTxt}
-              onPress={handleSave}
-            />
-          ) : (
-            <TouchableOpacity
-              style={styles.editIconContainer}
-              onPress={() => setIsEdit(true)}>
-              <Image
-                source={require('../assets/edit-pen-icon.png')}
-                style={styles.editIcon}
-              />
-            </TouchableOpacity>
-          )}
         </View>
-      </View>
-    </Modal>
+        <MyIndicator visible={loading} />
+      </Modal>
+    </>
   );
 };
 

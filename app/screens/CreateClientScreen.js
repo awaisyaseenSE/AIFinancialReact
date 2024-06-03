@@ -24,9 +24,12 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import moment from 'moment';
+import MyIndicator from '../components/MyIndicator';
+import {useNavigation} from '@react-navigation/native';
 
 export default function CreateClientScreen() {
   const insect = useSafeAreaInsets();
+  const navigation = useNavigation();
   const [selectedImg, setSelectedImg] = useState('');
   const [fullName, setFullName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
@@ -60,6 +63,20 @@ export default function CreateClientScreen() {
   const insuranceInfoRef = useRef(null);
 
   const scrollRef = useRef(null);
+
+  const handleClearState = () => {
+    setSelectedImg('');
+    setFullName('');
+    setDateOfBirth('');
+    setFinancialInfo('');
+    setPersonalInfo('');
+    setInvestmentInfo('');
+    setTaxInfo('');
+    setEstateInfo('');
+    setInsuranceInfo('');
+    setLoading(false);
+    navigation.goBack();
+  };
 
   const handlePickImage = async () => {
     try {
@@ -251,8 +268,7 @@ export default function CreateClientScreen() {
             userUid: auth().currentUser.uid,
           })
           .then(docRef => {
-            Alert.alert('Client data is uploaded successfully!');
-            setLoading(false);
+            handleClearState();
           })
           .catch(er => {
             console.log(
@@ -608,6 +624,7 @@ export default function CreateClientScreen() {
         </KeyboardAvoidingView> */}
         </KeyboardAwareScrollView>
       </View>
+      <MyIndicator visible={loading} />
     </>
   );
 }
