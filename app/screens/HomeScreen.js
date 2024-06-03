@@ -62,10 +62,6 @@ export default function HomeScreen() {
         );
         setClientsData(filteredClientsData);
         setFilteredData(filteredClientsData);
-        console.log(
-          'Filtered Clients data length is: ',
-          filteredClientsData.length,
-        );
         setLoading(false);
       });
 
