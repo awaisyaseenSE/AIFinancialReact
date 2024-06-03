@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
   KeyboardAvoidingView,
+  TextInput,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import colors from '../config/colors';
@@ -26,6 +27,7 @@ import auth from '@react-native-firebase/auth';
 import moment from 'moment';
 import MyIndicator from '../components/MyIndicator';
 import {useNavigation} from '@react-navigation/native';
+import DatePicker from 'react-native-date-picker';
 
 export default function CreateClientScreen() {
   const insect = useSafeAreaInsets();
@@ -52,6 +54,12 @@ export default function CreateClientScreen() {
   const [taxInfoError, setTaxInfoError] = useState('');
   const [estateInfoError, setEstateInfoError] = useState('');
   const [insuranceInfoError, setInsuranceInfoError] = useState('');
+
+  const [openDateModal, setOpenDateModal] = useState(false);
+
+  const toggleOpenDateModal = () => {
+    setOpenDateModal(!openDateModal);
+  };
 
   const fullNameRef = useRef(null);
   const dateOfBirthRef = useRef(null);
@@ -208,21 +216,8 @@ export default function CreateClientScreen() {
       }
 
       if (dateOfBirth !== '') {
-        if (moment(dateOfBirth, 'DD-MM-YYYY', true).isValid()) {
-          let currentDate = new Date();
-          let currentYear = currentDate.getFullYear();
-          let yy = dateOfBirth?.split('-')[2];
-          if (yy <= currentYear) {
-            setDateOfBirthError('');
-            dataOfbithValid = true;
-          } else {
-            dataOfbithValid = false;
-            setDateOfBirthError('Enter valid date of birth!');
-          }
-        } else {
-          dataOfbithValid = false;
-          setDateOfBirthError('Enter valid date of birth!');
-        }
+        setDateOfBirthError('');
+        dataOfbithValid = true;
       } else {
         setDateOfBirthError('Date of birth is required!');
         dataOfbithValid = false;
@@ -367,23 +362,50 @@ export default function CreateClientScreen() {
               <Text style={styles.errorTxt}>{fullNameError}</Text>
             )}
             <Text style={styles.label}>Date of Birth</Text>
-            <TextInputComponent
-              placeholder="DD-MM-YYYY"
-              value={dateOfBirth}
-              onChangeText={text => {
-                if (text.trim().length) {
-                  setDateOfBirth(text);
-                } else {
-                  setDateOfBirth('');
-                }
+            <TouchableOpacity
+              style={[
+                styles.dateOfBirthPicker,
+                {
+                  borderWidth: dateOfBirthError !== '' ? 1 : 0,
+                  borderColor: dateOfBirthError !== '' ? colors.red : null,
+                },
+              ]}
+              activeOpacity={1}
+              onPress={toggleOpenDateModal}>
+              <TextInput
+                editable={false}
+                value={dateOfBirth}
+                placeholder="DD-MM-YYYY"
+                onPressIn={toggleOpenDateModal}
+                style={styles.inputDatePicker}
+              />
+            </TouchableOpacity>
+            <DatePicker
+              modal
+              mode="date"
+              open={openDateModal}
+              date={new Date()}
+              maximumDate={new Date()}
+              minimumDate={new Date('1920-12-10')}
+              onConfirm={date => {
+                let day = date.getDate();
+                let year = date.getFullYear();
+                let month = date.getMonth();
+
+                const myDate = new Date(year, month, day);
+                const result = myDate.toLocaleDateString('en-GB', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                });
+                let finalDate = result.replace(new RegExp('/', 'g'), '-');
+                setDateOfBirth(finalDate);
+                setDateOfBirthError('');
+                setOpenDateModal(false);
               }}
-              maxLength={10}
-              inputStyle={{
-                marginBottom: dateOfBirthError !== '' ? 4 : 10,
-                borderWidth: dateOfBirthError !== '' ? 1 : 0,
-                borderColor: dateOfBirthError !== '' ? colors.red : null,
-              }}
+              onCancel={() => setOpenDateModal(false)}
             />
+
             {dateOfBirthError !== '' && (
               <Text style={styles.errorTxt}>{dateOfBirthError}</Text>
             )}
@@ -705,5 +727,18 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.medium,
     marginBottom: 10,
     paddingLeft: 4,
+  },
+  dateOfBirthPicker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.text_Input_Bg,
+    height: 50,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginBottom: 10,
+  },
+  inputDatePicker: {
+    fontSize: 14,
+    color: colors.black_light,
   },
 });
