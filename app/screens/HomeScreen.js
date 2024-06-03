@@ -26,7 +26,26 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [clientsData, setClientsData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const currentUserUid = auth()?.currentUser?.uid;
+
+  const searchClient = async () => {
+    try {
+      const filtered = filteredData.filter(user => {
+        return user.fullName.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setClientsData(filtered);
+    } catch (error) {
+      console.log('Error in while Searching client in Home Screen: ', error);
+    }
+  };
+  useEffect(() => {
+    if (searchText !== '') {
+      searchClient();
+    } else {
+      setClientsData(filteredData);
+    }
+  }, [searchText]);
 
   useEffect(() => {
     setLoading(true);
@@ -42,10 +61,11 @@ export default function HomeScreen() {
           ele => ele.userUid === currentUserUid,
         );
         setClientsData(filteredClientsData);
-        // console.log(
-        //   'Filtered Clients data length is: ',
-        //   filteredClientsData.length,
-        // );
+        setFilteredData(filteredClientsData);
+        console.log(
+          'Filtered Clients data length is: ',
+          filteredClientsData.length,
+        );
         setLoading(false);
       });
 
@@ -73,6 +93,11 @@ export default function HomeScreen() {
               } else {
                 setSearchText('');
               }
+            }}
+            clearIcon={searchText.length > 0 ? 'Clear' : ''}
+            onPressClear={() => {
+              setSearchText('');
+              searchClient(filteredData);
             }}
           />
           <TouchableOpacity

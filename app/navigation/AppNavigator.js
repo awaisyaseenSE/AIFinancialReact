@@ -34,7 +34,7 @@ const DrawerNavigator = () => {
           },
           sceneContainerStyle: {
             // backgroundColor: '#FFFFFF33',
-            backgroundColor: colors.gray_light,
+            backgroundColor: colors.off_White,
           },
           swipeEdgeWidth: Platform.OS === 'android' && 100,
           headerShown: false,
@@ -104,4 +104,5 @@ function AppNavigator() {
     </Stack.Navigator>
   );
 }
+
 export default AppNavigator;

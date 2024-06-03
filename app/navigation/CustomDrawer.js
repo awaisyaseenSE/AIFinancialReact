@@ -10,10 +10,10 @@ import useAuth from '../auth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
-function CustomDrawer(props) {
+function CustomDrawer({navigation}) {
   const insect = useSafeAreaInsets();
   const {logout} = useAuth();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const userPhotoUrl = auth()?.currentUser?.photoURL;
 
   const handleLogout = () => {
@@ -90,6 +90,7 @@ function CustomDrawer(props) {
             title="Profile"
             onPress={() => {
               navigation.navigate(navigationStrings.ProfileScreen);
+              navigation.closeDrawer();
             }}
           />
           <DrawerItemListCompo
