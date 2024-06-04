@@ -5,7 +5,7 @@ import {Dimensions, Platform} from 'react-native';
 import TodoHomeScreen from './TodoHomeScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import TodoCustomDrawer from './components/TodoCustomDrawer';
-import ForgotPasswordScreen from '../ForgotPasswordScreen';
+import TodoAddTaskScreen from './TodoAddTaskScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -36,8 +36,8 @@ const DrawerNavigator = () => {
           options={{headerShown: false}}
         />
         <Drawer.Screen
-          name="ForgotPasswordScreen"
-          component={ForgotPasswordScreen}
+          name="TodoAddTaskScreen"
+          component={TodoAddTaskScreen}
           options={{headerShown: false}}
         />
       </Drawer.Navigator>

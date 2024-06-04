@@ -10,15 +10,8 @@ export default function ForgotPasswordScreen() {
   const navigation = useNavigation();
   return (
     <>
-      <ScreenComponent
-        style={{backgroundColor: colors.primary}}
-        content="light-content">
+      <ScreenComponent content="light-content">
         <View>
-          {/* <TopCompoWithHeading title="back" /> */}
-          <TodoTopHomeCompo
-            title="Forgot Password Screen"
-            onPress={() => navigation.openDrawer()}
-          />
           <Text
             style={{marginTop: 20, paddingHorizontal: 20, color: colors.white}}>
             ForgotPasswordScreen
