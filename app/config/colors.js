@@ -3,6 +3,7 @@ export default {
   white: '#FFFFFF',
   black: '#202427',
   black_light: '#424758',
+  black_dark: '#13111A',
   gray: '#939393',
   text_Input_Bg: '#F2F2F2',
   red: '#F83758',
@@ -10,4 +11,6 @@ export default {
   gray_light: '#EFF0F0',
   gray_dark: '#828282',
   off_White: '#f4f3f4',
+  yellow_light: '#6D5927',
+  yellow: '#FCCA3C',
 };
