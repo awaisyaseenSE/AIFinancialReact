@@ -13,4 +13,5 @@ export default {
   off_White: '#f4f3f4',
   yellow_light: '#6D5927',
   yellow: '#FCCA3C',
+  green: '#0DC57E',
 };

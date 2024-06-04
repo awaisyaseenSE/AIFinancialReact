@@ -9,6 +9,7 @@ import {
   handleDeleteAllStorageData,
 } from '../../utils/storageUtils';
 import ShowTodoItemCompo from './components/ShowTodoItemCompo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TodoHomeScreen() {
   const navigation = useNavigation();
@@ -31,15 +32,22 @@ export default function TodoHomeScreen() {
       const currentDate = new Date();
       let data = await getStoredTodoData();
       if (data && data.length > 0) {
-        console.log('All todo items data is: ', data.length);
+        // console.log('All todo items data is: ', data.length);
 
         const todayItems = data.filter(item => {
-          const itemDate = new Date(item.date);
-          return isSameDay(currentDate, itemDate);
+          if (!JSON.parse(item.done)) {
+            if (!JSON.parse(item.skip)) {
+              const itemDate = new Date(item.date);
+              return isSameDay(currentDate, itemDate);
+            }
+          }
         });
 
-        console.log('today items is: ', todayItems.length);
-        setTodayTodoItems(todayItems);
+        // console.log('today items is: ', todayItems.length);
+        if (todayItems.length > 0) {
+          const newArr = todayItems.map(v => ({...v, opened: false}));
+          setTodayTodoItems(newArr);
+        }
       }
     } catch (error) {
       console.log('Error while getting todo data in todo-home screen: ', error);
@@ -50,8 +58,81 @@ export default function TodoHomeScreen() {
     getTodoData();
   }, []);
 
-  const handleDelete = async () => {
-    await handleDeleteAllStorageData();
+  const openSwiper = ind => {
+    let temArr = todayTodoItems;
+    temArr.map((item, index) => {
+      if (index == ind) {
+        item.opened = true;
+      } else {
+        item.opened = false;
+      }
+    });
+
+    let temp = [];
+    temArr.map(item => {
+      temp.push(item);
+    });
+    setTodoData(temp);
+  };
+
+  const onDoneTodo = async id => {
+    try {
+      console.log('item is done: ', id);
+      let res = await getStoredTodoData();
+      if (res && res.length > 0) {
+        const indexToUpdate = res.findIndex(item => item.id === id);
+
+        if (indexToUpdate !== -1) {
+          res[indexToUpdate].done = JSON.stringify(true);
+          await AsyncStorage.setItem('todoItems', JSON.stringify(res));
+
+          getTodoData();
+        }
+      }
+    } catch (error) {
+      console.log('Error while updating on done status of todo task: ', error);
+    }
+  };
+
+  const onSkipTodo = async id => {
+    try {
+      console.log('item is skip: ', id);
+      let res = await getStoredTodoData();
+      if (res && res.length > 0) {
+        const indexToUpdate = res.findIndex(item => item.id === id);
+
+        if (indexToUpdate !== -1) {
+          res[indexToUpdate].skip = JSON.stringify(true);
+          await AsyncStorage.setItem('todoItems', JSON.stringify(res));
+
+          getTodoData();
+        }
+      }
+    } catch (error) {
+      console.log('Error while updating on done status of todo task: ', error);
+    }
+  };
+
+  const onMoveToNextDayTodo = async itm => {
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    let finaldate = tomorrow.toDateString();
+
+    try {
+      let id = itm?.id;
+      let res = await getStoredTodoData();
+      if (res && res.length > 0) {
+        const indexToUpdate = res.findIndex(item => item.id === id);
+
+        if (indexToUpdate !== -1) {
+          res[indexToUpdate].date = finaldate;
+          await AsyncStorage.setItem('todoItems', JSON.stringify(res));
+          getTodoData();
+        }
+      }
+    } catch (error) {
+      console.log('Error while moving current todo task to next day: ', error);
+    }
   };
 
   return (
@@ -69,7 +150,14 @@ export default function TodoHomeScreen() {
             <FlatList
               data={todayTodoItems}
               renderItem={({item, index}) => (
-                <ShowTodoItemCompo data={item} index={index} />
+                <ShowTodoItemCompo
+                  data={item}
+                  index={index}
+                  openSwiper={openSwiper}
+                  onDoneTodo={onDoneTodo}
+                  onSkipTodo={onSkipTodo}
+                  onMoveToNextDayTodo={onMoveToNextDayTodo}
+                />
               )}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
