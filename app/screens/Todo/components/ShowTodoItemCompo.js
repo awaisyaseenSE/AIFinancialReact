@@ -72,7 +72,10 @@ const ShowTodoItemCompo = ({
       renderLeftActions={leftSwipe}
       renderRightActions={rightSwipe}
       onSwipeableOpen={() => openSwiper(index)}>
-      <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={0.8}
+        onPress={() => console.log(data?.id)}>
         <Text numberOfLines={2} style={styles.titleTxt}>
           {data?.title}
         </Text>
