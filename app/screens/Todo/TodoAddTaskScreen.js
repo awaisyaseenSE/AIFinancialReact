@@ -6,6 +6,8 @@ import {
   Image,
   Switch,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
 import ScreenComponent from '../../components/ScreenComponent';
@@ -44,6 +46,7 @@ export default function TodoAddTaskScreen() {
     setDesc('');
     setTime('');
     setNotification('');
+    Keyboard.dismiss();
   };
 
   const handleAddNewTask = async () => {
@@ -87,7 +90,7 @@ export default function TodoAddTaskScreen() {
 
         let res = await handleStoreTodoData(todoItem);
         if (res) {
-          Alert.alert('Data is stored successfully!');
+          Alert.alert('Task is added successfully!');
           setLoading(false);
         } else {
           Alert.alert('Try again!', 'Some thing went wrong!');
@@ -117,175 +120,179 @@ export default function TodoAddTaskScreen() {
           title="Add Task"
           onPress={() => navigation.openDrawer()}
         />
-        <View style={styles.container}>
-          <View>
-            <TextInputComponent
-              placeholder="Task Name"
-              placeholderTextColor={colors.gray}
-              value={title}
-              onChangeText={text => {
-                if (text.trim().length) {
-                  setTitle(text);
-                  if (text.length > 0) {
-                    setTitleError('');
+        <TouchableWithoutFeedback
+          style={{flex: 1}}
+          onPress={() => Keyboard.dismiss()}>
+          <View style={styles.container}>
+            <View>
+              <TextInputComponent
+                placeholder="Task Name"
+                placeholderTextColor={colors.gray}
+                value={title}
+                onChangeText={text => {
+                  if (text.trim().length) {
+                    setTitle(text);
+                    if (text.length > 0) {
+                      setTitleError('');
+                    }
+                  } else {
+                    setTitle('');
                   }
-                } else {
-                  setTitle('');
-                }
-              }}
-              maxLength={50}
-              textStyle={styles.input}
-              inputStyle={{
-                ...styles.inputContainer,
-                ...{
-                  borderWidth: titleError !== '' ? 1 : 0,
-                  borderColor: titleError !== '' ? colors.red : null,
-                  marginBottom: titleError !== '' ? 6 : 20,
-                },
-              }}
-            />
-            {titleError !== '' && (
-              <Text style={styles.errorText}>{titleError}</Text>
-            )}
-            <TextInputComponent
-              placeholder="Description"
-              inputStyle={styles.inputContainer}
-              placeholderTextColor={colors.gray}
-              value={desc}
-              onChangeText={text => {
-                if (text.trim().length) {
-                  setDesc(text);
-                } else {
-                  setDesc('');
-                }
-              }}
-              maxLength={300}
-              textStyle={styles.input}
-            />
-            <TouchableOpacity
-              style={[
-                styles.timeContainer,
-                {
-                  borderWidth: timeError !== '' ? 1 : 0,
-                  borderColor: timeError !== '' ? colors.red : null,
-                  marginBottom: timeError !== '' ? 6 : 0,
-                },
-              ]}
-              activeOpacity={1}>
-              <Text
-                style={[
-                  styles.txt,
-                  {
-                    color: time !== '' ? colors.off_White : colors.gray,
+                }}
+                maxLength={50}
+                textStyle={styles.input}
+                inputStyle={{
+                  ...styles.inputContainer,
+                  ...{
+                    borderWidth: titleError !== '' ? 1 : 0,
+                    borderColor: titleError !== '' ? colors.red : null,
+                    marginBottom: titleError !== '' ? 6 : 20,
                   },
-                ]}>
-                {time !== '' ? time : 'Time'}
-              </Text>
-              <TouchableOpacity
-                style={styles.timeIconContainer}
-                activeOpacity={0.8}
-                onPress={() => {
-                  setTimeError('');
-                  setShowTimeModal(!showTimeModal);
-                }}>
-                <Image
-                  source={
-                    showTimeModal
-                      ? require('../../assets/todo/up-arrow.png')
-                      : require('../../assets/todo/down-arrow.png')
+                }}
+              />
+              {titleError !== '' && (
+                <Text style={styles.errorText}>{titleError}</Text>
+              )}
+              <TextInputComponent
+                placeholder="Description"
+                inputStyle={styles.inputContainer}
+                placeholderTextColor={colors.gray}
+                value={desc}
+                onChangeText={text => {
+                  if (text.trim().length) {
+                    setDesc(text);
+                  } else {
+                    setDesc('');
                   }
-                  style={styles.timeIcon}
-                />
+                }}
+                maxLength={300}
+                textStyle={styles.input}
+              />
+              <TouchableOpacity
+                style={[
+                  styles.timeContainer,
+                  {
+                    borderWidth: timeError !== '' ? 1 : 0,
+                    borderColor: timeError !== '' ? colors.red : null,
+                    marginBottom: timeError !== '' ? 6 : 0,
+                  },
+                ]}
+                activeOpacity={1}>
+                <Text
+                  style={[
+                    styles.txt,
+                    {
+                      color: time !== '' ? colors.off_White : colors.gray,
+                    },
+                  ]}>
+                  {time !== '' ? time : 'Time'}
+                </Text>
+                <TouchableOpacity
+                  style={styles.timeIconContainer}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setTimeError('');
+                    setShowTimeModal(!showTimeModal);
+                  }}>
+                  <Image
+                    source={
+                      showTimeModal
+                        ? require('../../assets/todo/up-arrow.png')
+                        : require('../../assets/todo/down-arrow.png')
+                    }
+                    style={styles.timeIcon}
+                  />
+                </TouchableOpacity>
               </TouchableOpacity>
-            </TouchableOpacity>
-            {timeError !== '' && (
-              <Text style={styles.errorText}>{timeError}</Text>
-            )}
-            {showTimeModal && (
-              <View style={{alignItems: 'flex-end', paddingHorizontal: 16}}>
-                <TodoGetTimeListCompo
-                  title="Part of the day"
-                  onPress={() => {
-                    setTime('Part of the day');
-                    setShowTimeModal(false);
+              {timeError !== '' && (
+                <Text style={styles.errorText}>{timeError}</Text>
+              )}
+              {showTimeModal && (
+                <View style={{alignItems: 'flex-end', paddingHorizontal: 16}}>
+                  <TodoGetTimeListCompo
+                    title="Part of the day"
+                    onPress={() => {
+                      setTime('Part of the day');
+                      setShowTimeModal(false);
+                    }}
+                  />
+                  <TodoGetTimeListCompo
+                    title="Any time of day"
+                    onPress={() => {
+                      setTime('Any time of day');
+                      setShowTimeModal(false);
+                    }}
+                  />
+                  <TodoGetTimeListCompo
+                    title="Morning"
+                    onPress={() => {
+                      setTime('Morning');
+                      setShowTimeModal(false);
+                    }}
+                  />
+                  <TodoGetTimeListCompo
+                    title="Afternoon"
+                    onPress={() => {
+                      setTime('Afternoon');
+                      setShowTimeModal(false);
+                    }}
+                  />
+                  <TodoGetTimeListCompo
+                    title="Evening"
+                    onPress={() => {
+                      setTime('Evening');
+                      setShowTimeModal(false);
+                    }}
+                  />
+                  <TodoGetTimeListCompo
+                    title="At given time"
+                    style={styles.removeBoder}
+                    onPress={toggleTimePickerModal}
+                  />
+                  <DatePicker
+                    modal
+                    mode="time"
+                    open={showTimePicker}
+                    date={new Date()}
+                    onConfirm={time => {
+                      // let notifi_date = time.toLocaleDateString();
+                      // let notifi_time = time.toLocaleTimeString();
+                      setNotification(time);
+                      let hours = time.getHours();
+                      hours = hours % 12 || 12;
+                      let amPm = hours < 12 ? 'PM' : 'AM';
+                      let min = time.getMinutes();
+                      let finalTime = `${pad(hours)}:${pad(min)} ${amPm}`;
+                      setTime(finalTime);
+                      setShowTimePicker(false);
+                      setShowTimeModal(false);
+                    }}
+                    onCancel={() => setShowTimePicker(false)}
+                  />
+                </View>
+              )}
+              <View style={styles.notificationContainer}>
+                <Text style={styles.notificationTxt}>Notification</Text>
+                <Switch
+                  value={showNotifi}
+                  onValueChange={toggleSwitch}
+                  trackColor={{
+                    true: colors.yellow_light,
+                    false: colors.gray_light,
                   }}
-                />
-                <TodoGetTimeListCompo
-                  title="Any time of day"
-                  onPress={() => {
-                    setTime('Any time of day');
-                    setShowTimeModal(false);
-                  }}
-                />
-                <TodoGetTimeListCompo
-                  title="Morning"
-                  onPress={() => {
-                    setTime('Morning');
-                    setShowTimeModal(false);
-                  }}
-                />
-                <TodoGetTimeListCompo
-                  title="Afternoon"
-                  onPress={() => {
-                    setTime('Afternoon');
-                    setShowTimeModal(false);
-                  }}
-                />
-                <TodoGetTimeListCompo
-                  title="Evening"
-                  onPress={() => {
-                    setTime('Evening');
-                    setShowTimeModal(false);
-                  }}
-                />
-                <TodoGetTimeListCompo
-                  title="At given time"
-                  style={styles.removeBoder}
-                  onPress={toggleTimePickerModal}
-                />
-                <DatePicker
-                  modal
-                  mode="time"
-                  open={showTimePicker}
-                  date={new Date()}
-                  onConfirm={time => {
-                    // let notifi_date = time.toLocaleDateString();
-                    // let notifi_time = time.toLocaleTimeString();
-                    setNotification(time);
-                    let hours = time.getHours();
-                    hours = hours % 12 || 12;
-                    let amPm = hours < 12 ? 'PM' : 'AM';
-                    let min = time.getMinutes();
-                    let finalTime = `${pad(hours)}:${pad(min)} ${amPm}`;
-                    setTime(finalTime);
-                    setShowTimePicker(false);
-                    setShowTimeModal(false);
-                  }}
-                  onCancel={() => setShowTimePicker(false)}
+                  thumbColor={showNotifi ? colors.yellow : colors.gray}
                 />
               </View>
-            )}
-            <View style={styles.notificationContainer}>
-              <Text style={styles.notificationTxt}>Notification</Text>
-              <Switch
-                value={showNotifi}
-                onValueChange={toggleSwitch}
-                trackColor={{
-                  true: colors.yellow_light,
-                  false: colors.gray_light,
-                }}
-                thumbColor={showNotifi ? colors.yellow : colors.gray}
+
+              <ButtonComponent
+                title="Save"
+                onPress={handleAddNewTask}
+                style={styles.btn}
+                loading={loading}
               />
             </View>
-
-            <ButtonComponent
-              title="Save"
-              onPress={handleAddNewTask}
-              style={styles.btn}
-              loading={loading}
-            />
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </ScreenComponent>
     </>
   );

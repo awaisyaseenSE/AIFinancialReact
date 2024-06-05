@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ScreenComponent from '../../components/ScreenComponent';
 import colors from '../../config/colors';
@@ -252,7 +259,7 @@ export default function TodoHomeScreen() {
         />
         <View style={styles.container}>
           <Text style={styles.heading}>{todayDate}</Text>
-          <View style={{flex: 1}}>
+          <View style={{flex: todayTodoItems.length > 3 ? 1 : 0}}>
             <FlatList
               data={todayTodoItems}
               renderItem={({item, index}) => (
@@ -323,6 +330,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    marginBottom: Platform.OS === 'android' ? 12 : 0,
   },
   heading: {
     fontSize: 18,
