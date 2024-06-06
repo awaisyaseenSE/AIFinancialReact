@@ -9,6 +9,7 @@ import CreateClientScreen from '../screens/CreateClientScreen';
 import ClientDetailScreen from '../screens/ClientDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import NewTaskScreen from '../screens/FlatListTask/NewTaskScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -34,7 +35,7 @@ const DrawerNavigator = () => {
           },
           sceneContainerStyle: {
             // backgroundColor: '#FFFFFF33',
-            backgroundColor: colors.off_White,
+            backgroundColor: colors.gray_light,
           },
           swipeEdgeWidth: Platform.OS === 'android' && 100,
           headerShown: false,
@@ -97,6 +98,13 @@ function AppNavigator() {
       <Stack.Screen
         name="NewTaskScreen"
         component={NewTaskScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
         options={{
           headerShown: false,
         }}

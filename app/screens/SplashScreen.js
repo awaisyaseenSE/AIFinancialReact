@@ -8,8 +8,8 @@ export default function SplashScreen() {
       <StatusBar hidden={true} />
       <View style={styles.container}>
         <Image
-          // source={require('../assets/app-logo.png')}
-          source={require('../assets/todo/todo-logo.png')}
+          source={require('../assets/app-logo.png')}
+          // source={require('../assets/todo/todo-logo.png')}
           style={styles.logoStyle}
         />
       </View>
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
   logoStyle: {
     width: 140,
     height: 140,
-    tintColor: colors.text_Input_Bg,
+    // tintColor: colors.text_Input_Bg,
   },
 });

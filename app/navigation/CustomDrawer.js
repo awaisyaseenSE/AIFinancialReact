@@ -97,6 +97,7 @@ function CustomDrawer({navigation}) {
             image={require('../assets/setting.png')}
             title="Setting"
             onPress={() => {
+              navigation.closeDrawer();
               navigation.navigate(navigationStrings.SettingScreen);
               // navigation.closeDrawer();
             }}

@@ -13,6 +13,6 @@ export default function App() {
     }, 2000);
   }, []);
 
-  // return <>{splashDone ? <MainNavigator /> : <SplashScreen />}</>;
-  return <>{splashDone ? <TodoNavigator /> : <SplashScreen />}</>;
+  return <>{splashDone ? <MainNavigator /> : <SplashScreen />}</>;
+  // return <>{splashDone ? <TodoNavigator /> : <SplashScreen />}</>;
 }

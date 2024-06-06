@@ -9,6 +9,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../config/colors';
@@ -27,6 +28,7 @@ import moment from 'moment';
 import storage from '@react-native-firebase/storage';
 import MyIndicator from '../components/MyIndicator';
 import DatePicker from 'react-native-date-picker';
+import navigationStrings from '../navigation/navigationStrings';
 
 export default function ProfileScreen() {
   const insect = useSafeAreaInsets();
@@ -286,6 +288,17 @@ export default function ProfileScreen() {
                 value={userAllData?.email}
                 maxLength={50}
                 editable={false}
+              />
+
+              <Text style={styles.label}>Change Password</Text>
+              <TextInputComponent
+                placeholder="Enter your password"
+                value={'********'}
+                maxLength={20}
+                editable={false}
+                onPressIn={() =>
+                  navigation.navigate(navigationStrings.ChangePasswordScreen)
+                }
               />
 
               <Text style={styles.label}>Phone Number</Text>
