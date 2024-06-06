@@ -9,7 +9,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TextInput,
-  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../config/colors';
@@ -24,7 +23,6 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import ButtonComponent from '../components/ButtonComponent';
 import {validatePhoneNumber} from '../helper/validation';
-import moment from 'moment';
 import storage from '@react-native-firebase/storage';
 import MyIndicator from '../components/MyIndicator';
 import DatePicker from 'react-native-date-picker';

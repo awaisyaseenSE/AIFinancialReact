@@ -67,7 +67,7 @@ function CustomDrawer({navigation}) {
       </View>
       <DrawerContentScrollView
         style={{
-          backgroundColor: colors.white,
+          backgroundColor: colors.off_White,
           width: '100%',
         }}
         showsVerticalScrollIndicator={false}>
@@ -90,7 +90,7 @@ function CustomDrawer({navigation}) {
             title="Profile"
             onPress={() => {
               navigation.navigate(navigationStrings.ProfileScreen);
-              navigation.closeDrawer();
+              // navigation.closeDrawer();
             }}
           />
           <DrawerItemListCompo
@@ -98,17 +98,10 @@ function CustomDrawer({navigation}) {
             title="Setting"
             onPress={() => {
               navigation.closeDrawer();
-              navigation.navigate(navigationStrings.SettingScreen);
+              // navigation.navigate(navigationStrings.SettingScreen);
               // navigation.closeDrawer();
             }}
           />
-          {/* <DrawerItemListCompo
-            image={require('../assets/circle-4.png')}
-            title="New Task"
-            onPress={() => {
-              navigation.navigate(navigationStrings.NewTaskScreen);
-            }}
-          /> */}
         </View>
       </DrawerContentScrollView>
       <View style={styles.drawerFooter}>
@@ -144,6 +137,7 @@ const styles = StyleSheet.create({
   drawerFooter: {
     paddingVertical: 24,
     paddingHorizontal: 12,
+    backgroundColor: colors.off_White,
   },
   topContainer: {
     height: getResponsiveHeight(20),
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
   },
   line: {
     width: '80%',
-    height: 2,
+    height: 1.5,
     backgroundColor: colors.black,
     marginBottom: 20,
   },

@@ -69,7 +69,14 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ScreenComponent>
+    <ScreenComponent
+      style={
+        {
+          // backgroundColor: colors.white,
+          // borderWidth: 1,
+          // borderColor: colors.gray,
+        }
+      }>
       <TouchableWithoutFeedback
         style={{flex: 1}}
         onPress={() => Keyboard.dismiss()}>
