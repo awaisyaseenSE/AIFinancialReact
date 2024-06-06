@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ScreenComponent from '../../components/ScreenComponent';
@@ -311,6 +312,38 @@ export default function TodoHomeScreen() {
       console.log('Error while moving current todo task to next day: ', error);
     }
   };
+
+  const checkNotificationAndriodBattery = async () => {
+    if (Platform.OS === 'android') {
+      const batteryOptimizationEnabled =
+        await notifee.isBatteryOptimizationEnabled();
+      if (batteryOptimizationEnabled) {
+        // 2. ask your users to disable the feature
+        Alert.alert(
+          'Restrictions Detected',
+          'To ensure notifications are delivered, please disable battery optimization for the app.',
+          [
+            // 3. launch intent to navigate the user to the appropriate screen
+            {
+              text: 'OK, open settings',
+              onPress: async () =>
+                await notifee.openBatteryOptimizationSettings(),
+            },
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+          ],
+          {cancelable: false},
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkNotificationAndriodBattery();
+  }, []);
 
   return (
     <>
