@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ScreenComponent from '../components/ScreenComponent';
@@ -131,42 +132,47 @@ export default function ClientDetailScreen({route}) {
   return (
     <ScreenComponent>
       <TopCompoWithHeading title="Details" />
-      <View style={styles.container}>
-        <View style={styles.profileImageContainer}>
-          <FastImage
-            source={
-              data?.imageURL
-                ? {uri: data?.imageURL}
-                : require('../assets/avatar.png')
-            }
-            style={styles.profileImage}
+      <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+        <View style={styles.container}>
+          <View style={styles.profileImageContainer}>
+            <FastImage
+              source={
+                data?.imageURL
+                  ? {uri: data?.imageURL}
+                  : require('../assets/avatar.png')
+              }
+              style={styles.profileImage}
+            />
+          </View>
+          <Text style={styles.nameStyle}>{data?.fullName}</Text>
+          <View style={styles.aiGeneratedCard}>
+            <Text style={styles.aiGeneratedCardTxt}>
+              AI generated{'\n'}Plan
+            </Text>
+            <Image
+              source={require('../assets/ai-image.png')}
+              style={styles.aiGeneratedCardImage}
+            />
+          </View>
+          <FlatList
+            data={clientDetailInfo}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            scrollEnabled={false}
           />
+          {showModal && (
+            <ShowClientDetailModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              data={selectedData}
+              selectedID={selectedID}
+              clientDetailID={clientDetailID}
+            />
+          )}
         </View>
-        <Text style={styles.nameStyle}>{data?.fullName}</Text>
-        <View style={styles.aiGeneratedCard}>
-          <Text style={styles.aiGeneratedCardTxt}>AI generated{'\n'}Plan</Text>
-          <Image
-            source={require('../assets/ai-image.png')}
-            style={styles.aiGeneratedCardImage}
-          />
-        </View>
-        <FlatList
-          data={clientDetailInfo}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={2}
-        />
-        {showModal && (
-          <ShowClientDetailModal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            data={selectedData}
-            selectedID={selectedID}
-            clientDetailID={clientDetailID}
-          />
-        )}
-      </View>
+      </ScrollView>
       <MyIndicator visible={loading} isLoaderShow={true} />
     </ScreenComponent>
   );

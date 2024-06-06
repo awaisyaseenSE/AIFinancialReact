@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import TextInputComponent from '../components/TextInputComponent';
@@ -69,14 +70,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ScreenComponent
-      style={
-        {
-          // backgroundColor: colors.white,
-          // borderWidth: 1,
-          // borderColor: colors.gray,
-        }
-      }>
+    <ScreenComponent>
       <TouchableWithoutFeedback
         style={{flex: 1}}
         onPress={() => Keyboard.dismiss()}>
@@ -140,6 +134,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     flex: 1,
+    marginTop: Platform.OS === 'android' ? 6 : 0,
   },
   textInputStyle: {
     backgroundColor: colors.gray_light,

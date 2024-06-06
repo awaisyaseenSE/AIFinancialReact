@@ -11,6 +11,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import NewTaskScreen from '../screens/FlatListTask/NewTaskScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import CustomBottomTabBar from './CustomBottomTabBar';
+import ChatWithAiScreen from '../screens/ChatWithAiScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -69,8 +70,8 @@ function AppNavigator() {
         }}
       />
       <Stack.Screen
-        name="BottomTabNavigator"
-        component={BottomTabNavigator}
+        name="ChatWithAiScreen"
+        component={ChatWithAiScreen}
         options={{
           headerShown: false,
         }}

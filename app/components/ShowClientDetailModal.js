@@ -15,6 +15,7 @@ import fontFamily from '../config/fontFamily';
 import ButtonComponent from './ButtonComponent';
 import firestore from '@react-native-firebase/firestore';
 import MyIndicator from './MyIndicator';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -92,65 +93,88 @@ const ShowClientDetailModal = ({
             style={{flex: 1}}
             onPress={() => setShowModal(false)}
           />
-          <View style={styles.container}>
-            <View style={{flex: 1}}>
-              <View>
-                <TextInputComponent
-                  placeholder={`Enter client ${selectedID} detail`}
-                  inputStyle={{
-                    ...styles.input,
-                    ...{
-                      borderWidth: detailError !== '' ? 1 : 0,
-                      borderColor: detailError !== '' ? colors.red : null,
-                    },
-                  }}
-                  value={deatil}
-                  onChangeText={text => {
-                    if (isEdit) {
-                      if (text.trim().length) {
-                        setDetail(text);
-                        if (text.length > 49) {
-                          setDetailError('');
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="always"
+            style={{backgroundColor: colors.gray_light}}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <View style={{flex: 1}}>
+                <View>
+                  <TextInputComponent
+                    placeholder={`Enter client ${selectedID} detail`}
+                    inputStyle={{
+                      ...styles.input,
+                      ...{
+                        borderWidth: detailError !== '' ? 1 : 0,
+                        borderColor: detailError !== '' ? colors.red : null,
+                      },
+                    }}
+                    value={deatil}
+                    onChangeText={text => {
+                      if (isEdit) {
+                        if (text.trim().length) {
+                          setDetail(text);
+                          if (text.length > 49) {
+                            setDetailError('');
+                          }
+                        } else {
+                          setDetail('');
                         }
-                      } else {
-                        setDetail('');
                       }
-                    }
-                  }}
-                  maxLength={500}
-                  editable={isEdit}
-                  textStyle={styles.inputSty}
-                  multiline
-                />
-                {isEdit && (
-                  <Text style={styles.textInputLengthTxt}>
-                    {deatil.length}/500
-                  </Text>
+                    }}
+                    maxLength={500}
+                    editable={isEdit}
+                    textStyle={styles.inputSty}
+                    multiline
+                  />
+                  {isEdit && (
+                    <Text style={styles.textInputLengthTxt}>
+                      {deatil.length}/500
+                    </Text>
+                  )}
+                </View>
+                {detailError !== '' && (
+                  <Text style={styles.errorTxt}>{detailError}</Text>
+                )}
+                {isEdit ? (
+                  <ButtonComponent
+                    title="Save"
+                    style={styles.btn}
+                    textStyle={styles.btnTxt}
+                    onPress={handleSave}
+                    loading={loading}
+                  />
+                ) : (
+                  <TouchableOpacity
+                    style={styles.editIconContainer}
+                    onPress={() => setIsEdit(true)}>
+                    <Image
+                      source={require('../assets/edit-pen-icon.png')}
+                      style={styles.editIcon}
+                    />
+                  </TouchableOpacity>
                 )}
               </View>
-              {detailError !== '' && (
-                <Text style={styles.errorTxt}>{detailError}</Text>
-              )}
-            </View>
-            {isEdit ? (
-              <ButtonComponent
-                title="Save"
-                style={styles.btn}
-                textStyle={styles.btnTxt}
-                onPress={handleSave}
-                loading={loading}
-              />
-            ) : (
-              <TouchableOpacity
-                style={styles.editIconContainer}
-                onPress={() => setIsEdit(true)}>
-                <Image
-                  source={require('../assets/edit-pen-icon.png')}
-                  style={styles.editIcon}
+              {/* {isEdit ? (
+                <ButtonComponent
+                  title="Save"
+                  style={styles.btn}
+                  textStyle={styles.btnTxt}
+                  onPress={handleSave}
+                  loading={loading}
                 />
-              </TouchableOpacity>
-            )}
-          </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.editIconContainer}
+                  onPress={() => setIsEdit(true)}>
+                  <Image
+                    source={require('../assets/edit-pen-icon.png')}
+                    style={styles.editIcon}
+                  />
+                </TouchableOpacity>
+              )} */}
+            </View>
+          </KeyboardAwareScrollView>
         </View>
         <MyIndicator visible={loading} />
       </Modal>
@@ -161,7 +185,7 @@ const ShowClientDetailModal = ({
 const styles = StyleSheet.create({
   container: {
     width: screenWidth,
-    height: screenHeight - 120,
+    height: screenHeight - 220,
     backgroundColor: colors.gray_light,
     padding: 30,
     borderTopLeftRadius: 20,
@@ -224,6 +248,8 @@ const styles = StyleSheet.create({
   },
   inputSty: {
     height: '90%',
+    // backgroundColor: colors.red,
+    textAlignVertical: 'top',
   },
 });
 

@@ -94,7 +94,8 @@ export default function LoginScreen() {
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
-            enableOnAndroid={true}>
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="always">
             <View style={{}}>
               <Text style={styles.heading}>Welcome Back!</Text>
               <Text style={styles.subHeading}>Please Sign in to continue</Text>

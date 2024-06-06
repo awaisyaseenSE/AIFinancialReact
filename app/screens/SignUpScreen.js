@@ -149,7 +149,8 @@ export default function SignUpScreen() {
         <View style={[styles.mainContainer, {flex: 0.8}]}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
-            enableOnAndroid={true}>
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="always">
             <View style={{}}>
               <Text style={styles.heading}>Sign Up</Text>
               <Text style={styles.subHeading}>create an account</Text>

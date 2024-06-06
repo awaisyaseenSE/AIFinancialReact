@@ -322,7 +322,8 @@ export default function CreateClientScreen() {
 
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          enableOnAndroid={true}>
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="always">
           {/* <KeyboardAvoidingView
           style={{
             flex: 1,
@@ -704,8 +705,9 @@ const styles = StyleSheet.create({
   textInput: {
     alignItems: 'flex-start',
     paddingTop: 14,
-    // backgroundColor: 'gray',
+
     height: '82%',
+    textAlignVertical: 'top',
   },
   textInputLengthTxt: {
     position: 'absolute',
