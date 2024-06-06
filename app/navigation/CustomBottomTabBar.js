@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   Platform,
+  Modal,
 } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import SettingScreen from '../screens/SettingScreen';
@@ -15,10 +16,13 @@ import DrawerView from './DrawerView';
 import {useNavigation} from '@react-navigation/native';
 import navigationStrings from './navigationStrings';
 import fontFamily from '../config/fontFamily';
+import AiCreditExceedModal from '../components/AiCreditExceedModal';
 
 const CustomBottomTabBar = props => {
   const [selectedScreen, setSelectedScreen] = useState(0);
   const navigation = useNavigation();
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <DrawerView>
@@ -66,7 +70,8 @@ const CustomBottomTabBar = props => {
 
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate(navigationStrings.ChatWithAiScreen)
+              // navigation.navigate(navigationStrings.ChatWithAiScreen)
+              setShowModal(true)
             }
             style={{marginTop: -40}}>
             <Image
@@ -106,6 +111,9 @@ const CustomBottomTabBar = props => {
             </View>
           </TouchableOpacity>
         </View>
+        {showModal && (
+          <AiCreditExceedModal show={showModal} setShow={setShowModal} />
+        )}
       </View>
     </DrawerView>
   );

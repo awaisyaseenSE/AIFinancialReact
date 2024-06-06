@@ -5,6 +5,7 @@ export default {
   ForgotPasswordScreen: 'ForgotPasswordScreen',
   SettingScreen: 'SettingScreen',
   ChatWithAiScreen: 'ChatWithAiScreen',
+  AiPlanScreen: 'AiPlanScreen',
   CreateClientScreen: 'CreateClientScreen',
   ClientDetailScreen: 'ClientDetailScreen',
   ProfileScreen: 'ProfileScreen',

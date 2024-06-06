@@ -12,6 +12,7 @@ import NewTaskScreen from '../screens/FlatListTask/NewTaskScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import CustomBottomTabBar from './CustomBottomTabBar';
 import ChatWithAiScreen from '../screens/ChatWithAiScreen';
+import AiPlanScreen from '../screens/AiPlanScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -107,6 +108,13 @@ function AppNavigator() {
       <Stack.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AiPlanScreen"
+        component={AiPlanScreen}
         options={{
           headerShown: false,
         }}
