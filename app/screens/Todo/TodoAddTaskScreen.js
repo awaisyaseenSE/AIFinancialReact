@@ -20,6 +20,7 @@ import ButtonComponent from '../../components/ButtonComponent';
 import TodoGetTimeListCompo from './components/TodoGetTimeListCompo';
 import DatePicker from 'react-native-date-picker';
 import {handleStoreTodoData} from '../../utils/storageUtils';
+import {scheduleNotification} from '../../utils/handlNotification';
 
 export default function TodoAddTaskScreen() {
   const navigation = useNavigation();
@@ -41,12 +42,13 @@ export default function TodoAddTaskScreen() {
     setShowTimePicker(!showTimePicker);
   };
 
-  const handleClearData = () => {
+  const handleClearData = data => {
     setTitle('');
     setDesc('');
     setTime('');
     setNotification('');
     Keyboard.dismiss();
+    scheduleNotification(data);
   };
 
   const handleAddNewTask = async () => {
@@ -96,7 +98,14 @@ export default function TodoAddTaskScreen() {
           Alert.alert('Try again!', 'Some thing went wrong!');
           setLoading(false);
         }
-        handleClearData();
+        let taskData = {
+          time,
+          title,
+          id,
+          notification,
+          showNotifi,
+        };
+        handleClearData(taskData);
       }
     } catch (error) {
       console.log(
@@ -259,8 +268,13 @@ export default function TodoAddTaskScreen() {
                       // let notifi_time = time.toLocaleTimeString();
                       setNotification(time);
                       let hours = time.getHours();
+                      // console.log('hours is: ', hours);
+                      // hours = hours % 12 || 12;
+                      hours = hours % 24;
+
+                      let amPm = hours < 12 ? 'AM' : 'PM';
                       hours = hours % 12 || 12;
-                      let amPm = hours < 12 ? 'PM' : 'AM';
+                      // console.log('converted hour: ', hours);
                       let min = time.getMinutes();
                       let finalTime = `${pad(hours)}:${pad(min)} ${amPm}`;
                       setTime(finalTime);
