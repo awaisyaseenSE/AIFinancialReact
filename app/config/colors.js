@@ -9,10 +9,12 @@ export default {
   red: '#F83758',
   bottom_Tab_Gray: '#AFAFAF',
   gray_light: '#EFF0F0',
+  gray_light2: '#E6E7EB',
   gray_dark: '#828282',
   off_White: '#f4f3f4',
   yellow_light: '#6D5927',
   yellow: '#FCCA3C',
   green: '#0DC57E',
   transparent: 'transparent',
+  light_blue: '#1B3850',
 };

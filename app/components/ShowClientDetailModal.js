@@ -95,7 +95,11 @@ const ShowClientDetailModal = ({
           />
           <KeyboardAwareScrollView
             keyboardShouldPersistTaps="always"
-            style={{backgroundColor: colors.gray_light}}
+            style={{
+              backgroundColor: colors.gray_light,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
             showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={{flex: 1}}>
