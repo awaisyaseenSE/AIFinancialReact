@@ -6,6 +6,8 @@ import TodoHomeScreen from './TodoHomeScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import TodoCustomDrawer from './components/TodoCustomDrawer';
 import TodoAddTaskScreen from './TodoAddTaskScreen';
+import TodoAllTaskScreen from './TodoAllTaskScreen';
+import TodoAddAllItemScreen from './TodoAddAllItemScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -38,6 +40,16 @@ const DrawerNavigator = () => {
         <Drawer.Screen
           name="TodoAddTaskScreen"
           component={TodoAddTaskScreen}
+          options={{headerShown: false}}
+        />
+        <Drawer.Screen
+          name="TodoAllTaskScreen"
+          component={TodoAllTaskScreen}
+          options={{headerShown: false}}
+        />
+        <Drawer.Screen
+          name="TodoAddAllItemScreen"
+          component={TodoAddAllItemScreen}
           options={{headerShown: false}}
         />
       </Drawer.Navigator>

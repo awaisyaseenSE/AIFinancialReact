@@ -21,8 +21,12 @@ import TodoGetTimeListCompo from './components/TodoGetTimeListCompo';
 import DatePicker from 'react-native-date-picker';
 import {handleStoreTodoData} from '../../utils/storageUtils';
 import {scheduleNotification} from '../../utils/handlNotification';
+import TopCompoWithHeading from '../../components/TopCompoWithHeading';
 
-export default function TodoAddTaskScreen() {
+export default function TodoAddAllItemScreen({route}) {
+  const taskTitle = route?.params?.taskTitle;
+  const taskDate = route?.params?.taskDate;
+
   const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [titleError, setTitleError] = useState('');
@@ -84,10 +88,7 @@ export default function TodoAddTaskScreen() {
           desc: desc,
           skip: JSON.stringify(false),
           done: JSON.stringify(false),
-          date:
-            notification !== ''
-              ? notification.toDateString()
-              : currentDate.toDateString(),
+          date: taskDate,
         };
 
         console.log(todoItem);
@@ -127,9 +128,10 @@ export default function TodoAddTaskScreen() {
       <ScreenComponent
         style={{backgroundColor: colors.primary}}
         content={'light-content'}>
-        <TodoTopHomeCompo
-          title="Add Task"
-          onPress={() => navigation.openDrawer()}
+        <TopCompoWithHeading
+          title={taskTitle}
+          titleStyle={{color: colors.white}}
+          backIconStyle={{tintColor: colors.white}}
         />
         <TouchableWithoutFeedback
           style={{flex: 1}}

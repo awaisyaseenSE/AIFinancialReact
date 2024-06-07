@@ -100,6 +100,24 @@ export default function TodoHomeScreen() {
   };
 
   const handleCalculateStreaks = async (no, allTasks) => {
+    const reducedArray = allTasks.reduce((acc, next) => {
+      // acc stands for accumulator
+      const lastItemIndex = acc.length - 1;
+      const accHasContent = acc.length >= 1;
+
+      if (accHasContent && acc[lastItemIndex].date == next.date) {
+        acc[lastItemIndex].title += next.title;
+      } else {
+        // first time seeing this entry. add it!
+        acc[lastItemIndex + 1] = next;
+      }
+      return acc;
+    }, []);
+
+    console.log('lsfklslfslk  Reduce array: ', reducedArray.length);
+
+    /////////
+
     // console.log('');
     // console.log('');
     let preDay = new Date();
@@ -119,20 +137,37 @@ export default function TodoHomeScreen() {
       }
     });
 
-    let preDayPercentage = (preDayCompletedTask / preDayAllTasks) * 100;
-    preDayPercentage = parseInt(preDayPercentage.toFixed(0));
+    if (Platform.OS == 'android') {
+      // console.log('previous day all task: ', preDayAllTasks.length);
+      // console.log('previous day completed task: ', preDayCompletedTask.length);
+    }
+
+    // let preDayPercentage = (preDayCompletedTask / preDayAllTasks) * 100;
+    // preDayPercentage = parseInt(preDayPercentage.toFixed(0));
+
+    let preDayPercentage =
+      preDayAllTasks.length == preDayCompletedTask.length ? true : false;
+    // console.log('preDayPercentage: ', preDayPercentage);
     let preDayStreakVal = 0;
 
+    // if (preDayPercentage) {
+    //   if (preDayPercentage == 100) {
+    //     preDayStreakVal = 1;
+    //   } else {
+    //     preDayStreakVal = 0;
+    //   }
+    // } else {
+    //   preDayStreakVal = 0;
+    // }
+
     if (preDayPercentage) {
-      if (preDayPercentage == 100) {
-        preDayStreakVal = 1;
-      } else {
-        preDayStreakVal = 0;
-      }
+      preDayStreakVal = 1;
+      console.log('object:::');
     } else {
       preDayStreakVal = 0;
     }
 
+    console.log('preDayStreakVal: ', preDayStreakVal);
     // console.log('hello today streak is: ', no);
     // console.log('Pre day streak value is: ', preDayStreakVal);
 
@@ -141,11 +176,15 @@ export default function TodoHomeScreen() {
       let res = await AsyncStorage.getItem(key);
       let val = JSON.parse(res);
       let streaksValue = 0;
-      if (val) {
+      if (val !== null) {
+        console.log('lllll', no);
         if (no == 1 && preDayStreakVal == 0) {
           streaksValue = 1;
         } else if (no == 1 && preDayStreakVal == 1) {
-          streaksValue = val + 1;
+          // streaksValue = val + 1;
+          streaksValue = 1 + 1;
+        } else if (no == 0 && preDayStreakVal == 1) {
+          streaksValue = 1;
         } else {
           streaksValue = 0;
         }
@@ -157,7 +196,7 @@ export default function TodoHomeScreen() {
         }
       }
 
-      // console.log('streaks value final is: ', streaksValue);
+      console.log('streaks value final is: ', streaksValue);
       setTotalStreasks(streaksValue);
       await AsyncStorage.setItem(key, JSON.stringify(streaksValue));
     } catch (error) {

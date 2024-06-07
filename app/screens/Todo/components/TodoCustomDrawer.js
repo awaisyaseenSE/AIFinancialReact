@@ -32,6 +32,15 @@ function TodoCustomDrawer({navigation}) {
               navigation.navigate('TodoAddTaskScreen');
             }}
           />
+          <DrawerItemListCompo
+            image={require('../../../assets/todo/add.png')}
+            title="All Task"
+            iconStyle={{tintColor: colors.white}}
+            txtStyle={{color: colors.white}}
+            onPress={() => {
+              navigation.navigate('TodoAllTaskScreen');
+            }}
+          />
         </View>
       </DrawerContentScrollView>
     </>

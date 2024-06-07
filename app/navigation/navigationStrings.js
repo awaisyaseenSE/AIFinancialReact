@@ -12,4 +12,5 @@ export default {
   NewTaskScreen: 'NewTaskScreen',
   ChangePasswordScreen: 'ChangePasswordScreen',
   AiSubscriptionScreen: 'AiSubscriptionScreen',
+  TodoAllTaskScreen: 'TodoAllTaskScreen',
 };

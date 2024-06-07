@@ -11,6 +11,10 @@ const ShowTodoItemCompo = ({
   onDoneTodo,
   onSkipTodo,
   onMoveToNextDayTodo,
+  showLeft = true,
+  isSwiperClose = true,
+  showSkip = true,
+  showMoveToNext = true,
 }) => {
   const ref = useRef(null);
 
@@ -45,23 +49,25 @@ const ShowTodoItemCompo = ({
             Move to next day
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.skipBtnContainer}
-          activeOpacity={0.8}
-          onPress={() => {
-            ref?.current?.close();
-            onSkipTodo(data?.id);
-          }}>
-          <Text style={styles.btnTxt} numberOfLines={2}>
-            Skip
-          </Text>
-        </TouchableOpacity>
+        {showSkip && (
+          <TouchableOpacity
+            style={styles.skipBtnContainer}
+            activeOpacity={0.8}
+            onPress={() => {
+              ref?.current?.close();
+              onSkipTodo(data?.id);
+            }}>
+            <Text style={styles.btnTxt} numberOfLines={2}>
+              Skip
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
   };
 
   useEffect(() => {
-    if (data?.opened == false) {
+    if (data?.opened == false && isSwiperClose) {
       ref?.current?.close();
     }
   });
@@ -69,13 +75,38 @@ const ShowTodoItemCompo = ({
   return (
     <Swipeable
       ref={ref}
-      renderLeftActions={leftSwipe}
-      renderRightActions={rightSwipe}
+      renderLeftActions={
+        showLeft && !JSON.parse(data?.done) && !JSON.parse(data?.skip)
+          ? leftSwipe
+          : null
+      }
+      renderRightActions={
+        showMoveToNext && !JSON.parse(data?.skip) && !JSON.parse(data?.done)
+          ? rightSwipe
+          : null
+      }
       onSwipeableOpen={() => openSwiper(index)}>
       <TouchableOpacity
-        style={styles.container}
+        style={[
+          styles.container,
+          {
+            borderWidth:
+              JSON.parse(data?.done) || JSON.parse(data?.skip) ? 1 : 0,
+            borderColor: JSON.parse(data?.done)
+              ? colors.green
+              : JSON.parse(data?.skip)
+              ? colors.red
+              : null,
+          },
+        ]}
         activeOpacity={0.8}
-        onPress={() => console.log(data?.id)}>
+        onPress={() => {
+          // console.log(data?.date);
+          let nn = new Date(data?.date);
+          nn.setDate(nn.getDate() + 1);
+          let finaldate = nn.toDateString();
+          console.log(finaldate);
+        }}>
         <Text numberOfLines={2} style={styles.titleTxt}>
           {data?.title}
         </Text>
