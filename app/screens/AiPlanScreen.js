@@ -4,6 +4,9 @@ import ScreenComponent from '../components/ScreenComponent';
 import colors from '../config/colors';
 import {useNavigation} from '@react-navigation/native';
 import fontFamily from '../config/fontFamily';
+import AiPlanListItemCompo from '../components/AiPlanListItemCompo';
+import ButtonComponent from '../components/ButtonComponent';
+import navigationStrings from '../navigation/navigationStrings';
 
 export default function AiPlanScreen() {
   const navigation = useNavigation();
@@ -29,6 +32,33 @@ export default function AiPlanScreen() {
             <Image source={require('../assets/logo.png')} style={styles.img} />
           </View>
           <Text style={styles.heading}>Ai Financial</Text>
+          <View style={{flex: 1, justifyContent: 'space-around'}}>
+            <View>
+              <AiPlanListItemCompo
+                title="Daily Coins offer"
+                desc="Get 10 coins for free with Subscription"
+              />
+              <AiPlanListItemCompo
+                title="Additional Coin Purchase"
+                desc="Get 10 additional Coins for life time with Subscription"
+              />
+              <AiPlanListItemCompo
+                title="Reminder"
+                desc="Reminder about the end of your trial"
+              />
+              <AiPlanListItemCompo
+                title="Account debiting"
+                desc="Cancel anything at least 24 hours before your subscription expires"
+              />
+            </View>
+            <ButtonComponent
+              title="View All Plans"
+              textStyle={styles.txt}
+              onPress={() =>
+                navigation.navigate(navigationStrings.AiSubscriptionScreen)
+              }
+            />
+          </View>
         </View>
       </ScreenComponent>
     </>
@@ -75,8 +105,10 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: fontFamily.semi_bold,
     textAlign: 'center',
-    marginBottom: 30,
     alignSelf: 'center',
     marginTop: 6,
+  },
+  txt: {
+    fontSize: 16,
   },
 });

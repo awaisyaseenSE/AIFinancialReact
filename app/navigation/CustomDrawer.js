@@ -1,6 +1,14 @@
 import React from 'react';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
-import {View, Text, Platform, StyleSheet, Image, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  StyleSheet,
+  Image,
+  Alert,
+  StatusBar,
+} from 'react-native';
 import DrawerItemListCompo from './DrawerItemListCompo';
 import navigationStrings from '../navigation/navigationStrings';
 import colors from '../config/colors';
@@ -89,6 +97,7 @@ function CustomDrawer({navigation}) {
             image={require('../assets/user-icon.png')}
             title="Profile"
             onPress={() => {
+              navigation.closeDrawer();
               navigation.navigate(navigationStrings.ProfileScreen);
               // navigation.closeDrawer();
             }}

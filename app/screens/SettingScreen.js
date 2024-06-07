@@ -4,10 +4,12 @@ import ScreenComponent from '../components/ScreenComponent';
 import fontFamily from '../config/fontFamily';
 import colors from '../config/colors';
 import SettingListCompo from '../components/SettingListCompo';
+import {useNavigation} from '@react-navigation/native';
 
 export default function SettingScreen() {
   const [isEnabled, setIsEnabled] = useState(true);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const navigation = useNavigation();
 
   return (
     <>

@@ -11,4 +11,5 @@ export default {
   ProfileScreen: 'ProfileScreen',
   NewTaskScreen: 'NewTaskScreen',
   ChangePasswordScreen: 'ChangePasswordScreen',
+  AiSubscriptionScreen: 'AiSubscriptionScreen',
 };
