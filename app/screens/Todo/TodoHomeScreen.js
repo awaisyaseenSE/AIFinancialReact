@@ -127,7 +127,7 @@ export default function TodoHomeScreen() {
     if (todayStreaks == 1) {
       streak = streak + 1;
     }
-    console.log('Total streaks res is : ', streak);
+    // console.log('Total streaks res is : ', streak);
     setTotalStreasks(streak);
     return streak;
   };
@@ -362,10 +362,10 @@ export default function TodoHomeScreen() {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={[styles.productivityContainer, {marginTop: 14}]}>
+            <View style={[styles.productivityContainer, {marginTop: 10}]}>
               <Text style={styles.h2}>Streaks</Text>
               <View
-                style={{alignItems: 'center', marginTop: 10, marginBottom: 16}}>
+                style={{alignItems: 'center', marginTop: 8, marginBottom: 16}}>
                 <Text style={styles.h1}>{totalStreasks} Days</Text>
                 <Text style={styles.lightTxt}>Current Streaks</Text>
               </View>
@@ -373,7 +373,7 @@ export default function TodoHomeScreen() {
                 <Text
                   style={[
                     styles.lightTxt,
-                    {marginTop: 0, fontSize: 16, lineHeight: 20},
+                    {marginTop: 0, fontSize: 12, lineHeight: 16},
                   ]}>
                   for this part just write "complete all your habits and tasks
                   to have a streak".
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   },
   lightTxt: {
     marginTop: 10,
-    fontSize: 14,
+    fontSize: 12,
     color: colors.gray_light,
     fontFamily: fontFamily.medium,
   },

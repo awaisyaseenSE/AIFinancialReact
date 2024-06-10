@@ -178,6 +178,8 @@ export default function TodoAllTaskScreen() {
           await AsyncStorage.setItem('todoItems', JSON.stringify(res));
         }
         getTodoData();
+      } else {
+        setTodoTodayData([]);
       }
     } catch (error) {
       console.log('Error while moving current todo task to next day: ', error);
@@ -246,15 +248,9 @@ export default function TodoAllTaskScreen() {
                 selectedDate.date,
               );
               let selectedFinalDate = n.toDateString();
-
               let isToday = isSameDay(selectedDate, currentDate);
-              //   console.log('is selected date is today: ', isToday);
-
               const itemDate = new Date(selectedFinalDate);
               let isFuture = itemDate > currentDate;
-
-              //   console.log('is future is: ', isFuture);
-
               if (isFuture || isToday) {
                 let tit = isFuture
                   ? 'Add Task for Future'
@@ -266,10 +262,6 @@ export default function TodoAllTaskScreen() {
                   taskDate: selectedFinalDate,
                 });
               }
-
-              //   let fff = moment('2020.01.01', 'YYYY.MM.DD').fromNow();
-              //   console.log(fff);
-              //   navigation.navigate('TodoAddAllItemScreen');
             }}>
             <Image
               source={require('../../assets/ic_plus.png')}

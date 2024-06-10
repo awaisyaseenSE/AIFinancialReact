@@ -90,7 +90,7 @@ export default function TodoAddTaskScreen() {
               : currentDate.toDateString(),
         };
 
-        console.log(todoItem);
+        // console.log(todoItem);
 
         let res = await handleStoreTodoData(todoItem);
         if (res) {

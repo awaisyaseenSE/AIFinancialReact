@@ -91,7 +91,7 @@ export default function TodoAddAllItemScreen({route}) {
           date: taskDate,
         };
 
-        console.log(todoItem);
+        // console.log(todoItem);
 
         let res = await handleStoreTodoData(todoItem);
         if (res) {
@@ -132,6 +132,7 @@ export default function TodoAddAllItemScreen({route}) {
           title={taskTitle}
           titleStyle={{color: colors.white}}
           backIconStyle={{tintColor: colors.white}}
+          onPress={() => navigation.navigate('TodoAllTaskScreen')}
         />
         <TouchableWithoutFeedback
           style={{flex: 1}}

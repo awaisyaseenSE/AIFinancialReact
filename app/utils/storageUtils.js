@@ -19,7 +19,7 @@ export const handleStoreTodoData = async data => {
     existingData.push(data);
     const jsonData = JSON.stringify(existingData);
     await AsyncStorage.setItem(key, jsonData);
-    console.log('Data is stored in async storage successfully!');
+    // console.log('Data is stored in async storage successfully!');
     return true;
   } catch (error) {
     console.log('Error storing data in async storage: ', error);
