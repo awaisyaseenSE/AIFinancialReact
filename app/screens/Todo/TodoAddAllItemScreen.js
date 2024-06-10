@@ -52,7 +52,7 @@ export default function TodoAddAllItemScreen({route}) {
     setTime('');
     setNotification('');
     Keyboard.dismiss();
-    scheduleNotification(data);
+    scheduleNotification(data, taskDate);
   };
 
   const handleAddNewTask = async () => {

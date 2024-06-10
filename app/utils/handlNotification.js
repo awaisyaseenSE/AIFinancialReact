@@ -78,7 +78,7 @@ const getTime = time => {
   }
 };
 
-export const scheduleNotification = async data => {
+export const scheduleNotification = async (data, taskDate) => {
   let notification_Time = getTime(data?.time);
   if (notification_Time !== null && data?.showNotifi) {
     console.log('time of notification is:  ', notification_Time);
@@ -98,6 +98,19 @@ export const scheduleNotification = async data => {
       date.setMinutes(notification_Time?.min);
       date.setSeconds(0);
 
+      if (taskDate) {
+        let cd = new Date(taskDate);
+        let cy = cd.getFullYear();
+        let cdate = cd.getDate();
+        let cm = cd.getMonth();
+
+        date.setDate(cdate);
+        date.setFullYear(cy);
+        date.setMonth(cm);
+
+        console.log('my name is awais');
+      }
+
       //   console.log('time is: ', date.getTime());
       // Create a time-based trigger
       const trigger = {
@@ -106,7 +119,7 @@ export const scheduleNotification = async data => {
       };
 
       // Create a trigger notification
-      await notifee.createTriggerNotification(
+      let res = await notifee.createTriggerNotification(
         {
           title: data?.title,
           body: 'Your task time is starting now!',
@@ -116,6 +129,8 @@ export const scheduleNotification = async data => {
         },
         trigger,
       );
+
+      console.log('notification is created:  ', res);
     } catch (error) {
       console.log('Error in noitification show: ', error);
     }
