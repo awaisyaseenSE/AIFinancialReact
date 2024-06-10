@@ -160,6 +160,11 @@ export default function TodoAddTaskScreen() {
                     marginBottom: titleError !== '' ? 6 : 20,
                   },
                 }}
+                onBlur={t => {
+                  if (t?._dispatchInstances?.memoizedProps?.text == '') {
+                    setTitleError('Task title is required!');
+                  }
+                }}
               />
               {titleError !== '' && (
                 <Text style={styles.errorText}>{titleError}</Text>

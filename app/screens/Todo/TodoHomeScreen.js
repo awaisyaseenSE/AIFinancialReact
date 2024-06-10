@@ -26,7 +26,6 @@ import notifee, {
 
 export default function TodoHomeScreen() {
   const navigation = useNavigation();
-  const [todoData, setTodoData] = useState([]);
   const [todayTodoItems, setTodayTodoItems] = useState([]);
   const [todayPercentage, setTodayPercentage] = useState(0);
   const isFocused = useIsFocused();
@@ -271,6 +270,8 @@ export default function TodoHomeScreen() {
           await AsyncStorage.setItem('todoItems', JSON.stringify(res));
         }
         getTodoData();
+      } else {
+        setTodayTodoItems([]);
       }
     } catch (error) {
       console.log('Error while moving current todo task to next day: ', error);

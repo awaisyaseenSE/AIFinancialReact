@@ -1,10 +1,8 @@
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
   FlatList,
   Platform,
 } from 'react-native';
@@ -17,7 +15,6 @@ import CalendarStrip from 'react-native-calendar-strip';
 import {getStoredTodoData} from '../../utils/storageUtils';
 import ShowTodoItemCompo from './components/ShowTodoItemCompo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment';
 
 export default function TodoAllTaskScreen() {
   const navigation = useNavigation();
@@ -37,8 +34,6 @@ export default function TodoAllTaskScreen() {
     month: currentMonth,
     date: currentDatee,
   };
-
-  //   console.log(currentMonth);
 
   const [selectedDate, setSelectedDate] = useState(fullCurrentDate);
 
@@ -68,16 +63,8 @@ export default function TodoAllTaskScreen() {
           const itemDate = new Date(item.date);
           return isSameDay(selectedDate, itemDate);
         });
-
-        // console.log('items is: ', todayItems.length);
         if (todayItems.length > 0) {
           const currenttodayItems = todayItems.filter(item => {
-            // if (!JSON.parse(item.done)) {
-            //   if (!JSON.parse(item.skip)) {
-            //     const itemDate = new Date(item.date);
-            //     return isSameCurrentDay(currentDate, itemDate);
-            //   }
-            // }
             const itemDate = new Date(item.date);
             return isSameCurrentDay(currentDate, itemDate);
           });
@@ -89,10 +76,7 @@ export default function TodoAllTaskScreen() {
           } else {
             setTodoTodayData([]);
           }
-
           setTodoData(todayItems);
-
-          //   console.log('current day items: ', currenttodayItems.length);
         } else {
           setTodoData([]);
         }
@@ -163,9 +147,11 @@ export default function TodoAllTaskScreen() {
   };
 
   const onMoveToNextDayTodo = async itm => {
-    let tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    let finaldate = tomorrow.toDateString();
+    let n = new Date(selectedDate.year, selectedDate.month, selectedDate.date);
+    let selectedFinalDate = n.toDateString();
+    const itemDate = new Date(selectedFinalDate);
+    itemDate.setDate(itemDate.getDate() + 1);
+    let finaldate = itemDate.toDateString();
 
     try {
       let id = itm?.id;
@@ -219,20 +205,30 @@ export default function TodoAllTaskScreen() {
           <View style={{marginTop: 20}}>
             <FlatList
               data={isCurrentDay ? todoTodayData : todoData}
-              renderItem={({item, index}) => (
-                <ShowTodoItemCompo
-                  data={item}
-                  index={index}
-                  openSwiper={openSwiper}
-                  onDoneTodo={onDoneTodo}
-                  onSkipTodo={onSkipTodo}
-                  onMoveToNextDayTodo={onMoveToNextDayTodo}
-                  showLeft={isCurrentDay ? true : false}
-                  isSwiperClose={false}
-                  showSkip={isCurrentDay ? true : false}
-                  showMoveToNext={isCurrentDay ? true : false}
-                />
-              )}
+              renderItem={({item, index}) => {
+                let n = new Date(
+                  selectedDate.year,
+                  selectedDate.month,
+                  selectedDate.date,
+                );
+                let selectedFinalDate = n.toDateString();
+                const itemDate = new Date(selectedFinalDate);
+                let isFuture = itemDate > currentDate;
+                return (
+                  <ShowTodoItemCompo
+                    data={item}
+                    index={index}
+                    openSwiper={openSwiper}
+                    onDoneTodo={onDoneTodo}
+                    onSkipTodo={onSkipTodo}
+                    onMoveToNextDayTodo={onMoveToNextDayTodo}
+                    showLeft={isCurrentDay ? true : false}
+                    isSwiperClose={false}
+                    showSkip={isCurrentDay ? true : false}
+                    showMoveToNext={isCurrentDay || isFuture ? true : false}
+                  />
+                );
+              }}
               // showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
             />
