@@ -14,6 +14,7 @@ import CustomBottomTabBar from './CustomBottomTabBar';
 import ChatWithAiScreen from '../screens/ChatWithAiScreen';
 import AiPlanScreen from '../screens/AiPlanScreen';
 import AiSubscriptionScreen from '../screens/AiSubscriptionScreen';
+import TestingScreen from '../screens/TestingScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -123,6 +124,13 @@ function AppNavigator() {
       <Stack.Screen
         name="AiSubscriptionScreen"
         component={AiSubscriptionScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TestingScreen"
+        component={TestingScreen}
         options={{
           headerShown: false,
         }}

@@ -107,8 +107,6 @@ export const scheduleNotification = async (data, taskDate) => {
         date.setDate(cdate);
         date.setFullYear(cy);
         date.setMonth(cm);
-
-        console.log('my name is awais');
       }
 
       //   console.log('time is: ', date.getTime());

@@ -12,7 +12,6 @@ import {
 import React, {useState} from 'react';
 import ScreenComponent from '../../components/ScreenComponent';
 import {useNavigation} from '@react-navigation/native';
-import TodoTopHomeCompo from './components/TodoTopHomeCompo';
 import colors from '../../config/colors';
 import TextInputComponent from '../../components/TextInputComponent';
 import fontFamily from '../../config/fontFamily';
@@ -73,10 +72,6 @@ export default function TodoAddAllItemScreen({route}) {
         setLoading(true);
 
         const currentDate = new Date();
-        // let notifi_date = time.toLocaleDateString();
-        // let notifi_time = time.toLocaleTimeString();
-        // let jjj = notification.toDateString();
-        // console.log(jjj);
 
         let id = Date.now().toString();
         const todoItem = {

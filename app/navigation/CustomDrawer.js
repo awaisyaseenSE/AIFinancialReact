@@ -111,6 +111,15 @@ function CustomDrawer({navigation}) {
               // navigation.closeDrawer();
             }}
           />
+          <DrawerItemListCompo
+            image={require('../assets/circle-1.png')}
+            title="Testing"
+            onPress={() => {
+              navigation.closeDrawer();
+              navigation.navigate(navigationStrings.TestingScreen);
+              // navigation.closeDrawer();
+            }}
+          />
         </View>
       </DrawerContentScrollView>
       <View style={styles.drawerFooter}>

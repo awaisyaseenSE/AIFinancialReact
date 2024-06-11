@@ -17,12 +17,7 @@ import ShowTodoItemCompo from './components/ShowTodoItemCompo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import fontFamily from '../../config/fontFamily';
-import notifee, {
-  TimestampTrigger,
-  TriggerType,
-  TimeUnit,
-  AndroidImportance,
-} from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 
 export default function TodoHomeScreen() {
   const navigation = useNavigation();
@@ -33,62 +28,6 @@ export default function TodoHomeScreen() {
 
   let currentDate = new Date();
   let todayDate = currentDate.toLocaleDateString();
-
-  const handleShowNofi = async () => {
-    const secondsInFuture = 10; // Delay in seconds before the notification is triggered
-    const scheduleTime = new Date(Date.now() + secondsInFuture * 1000);
-
-    try {
-      if (Platform.OS === 'ios') {
-        await notifee.requestPermission();
-      }
-
-      // Create a channel (required for Android)
-      const channelId = await notifee.createChannel({
-        id: 'default2',
-        name: 'Default Channel2',
-        importance: AndroidImportance.HIGH,
-      });
-
-      // Display a notification
-      // await notifee.displayNotification({
-      //   title: 'Todo APP',
-      //   body: 'Your task time is start harry up!',
-      //   android: {
-      //     channelId,
-      //     smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
-      //     // pressAction is needed if you want the notification to open the app when pressed
-      //     pressAction: {
-      //       id: 'default',
-      //     },
-      //   },
-      // });
-      const date = new Date(Date.now());
-      date.setHours(16);
-      date.setMinutes(54);
-
-      console.log('time is: ', date.getTime());
-      // Create a time-based trigger
-      const trigger = {
-        type: TriggerType.TIMESTAMP,
-        timestamp: date.getTime(), // fire at 11:10am (10 minutes before meeting)
-      };
-
-      // Create a trigger notification
-      await notifee.createTriggerNotification(
-        {
-          title: 'Meeting with Jane',
-          body: 'Today at 11:20am',
-          android: {
-            channelId: channelId,
-          },
-        },
-        trigger,
-      );
-    } catch (error) {
-      console.log('Error in noitification show: ', error);
-    }
-  };
 
   const isSameDay = (date1, date2) => {
     return (
