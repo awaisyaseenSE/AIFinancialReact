@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AIFinancialReactTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AIFinancialReactTests.m */; };
+		0EBB1EC80FD146EEB0E644AE /* Mona-Sans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */; };
+		111A48FFC5F1489ABB1FDD8B /* Mona-Sans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */; };
 		138CE951AC3492DD68DEDC17 /* Pods_AIFinancialReact.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1D3C04863720D77870F7FC /* Pods_AIFinancialReact.framework */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		404547EB4A449476CD588F5F /* Pods_AIFinancialReact_AIFinancialReactTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1588AC46812E22375F3685B1 /* Pods_AIFinancialReact_AIFinancialReactTests.framework */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		F702F2752C04961000B4F040 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F702F2742C04961000B4F040 /* GoogleService-Info.plist */; };
-		111A48FFC5F1489ABB1FDD8B /* Mona-Sans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */; };
-		DE6606D88AC2469AA8A07310 /* Mona-Sans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */; };
-		F7E7F207F0384DBF8774B3F1 /* Mona-Sans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */; };
-		39846F2D144C438C8249A004 /* Mona-Sans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */; };
-		0EBB1EC80FD146EEB0E644AE /* Mona-Sans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */; };
 		33FA0F367156458BBBE035D2 /* Mona-Sans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 704119E582FA4055935B3D28 /* Mona-Sans-Regular.ttf */; };
+		39846F2D144C438C8249A004 /* Mona-Sans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */; };
+		404547EB4A449476CD588F5F /* Pods_AIFinancialReact_AIFinancialReactTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1588AC46812E22375F3685B1 /* Pods_AIFinancialReact_AIFinancialReactTests.framework */; };
 		6CA301B6401846958A3F5E8F /* Mona-Sans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ED1E53C810A473596B0A3A6 /* Mona-Sans-SemiBold.ttf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DE6606D88AC2469AA8A07310 /* Mona-Sans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */; };
+		F702F2752C04961000B4F040 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F702F2742C04961000B4F040 /* GoogleService-Info.plist */; };
+		F7E7F207F0384DBF8774B3F1 /* Mona-Sans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,17 +49,17 @@
 		3B4392A12AC88292D35C810B /* Pods-AIFinancialReact.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIFinancialReact.debug.xcconfig"; path = "Target Support Files/Pods-AIFinancialReact/Pods-AIFinancialReact.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-AIFinancialReact.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIFinancialReact.release.xcconfig"; path = "Target Support Files/Pods-AIFinancialReact/Pods-AIFinancialReact.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-AIFinancialReact-AIFinancialReactTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIFinancialReact-AIFinancialReactTests.debug.xcconfig"; path = "Target Support Files/Pods-AIFinancialReact-AIFinancialReactTests/Pods-AIFinancialReact-AIFinancialReactTests.debug.xcconfig"; sourceTree = "<group>"; };
+		704119E582FA4055935B3D28 /* Mona-Sans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-Regular.ttf"; path = "../app/assets/fonts/Mona-Sans-Regular.ttf"; sourceTree = "<group>"; };
+		78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-Bold.ttf"; path = "../app/assets/fonts/Mona-Sans-Bold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AIFinancialReact/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-AIFinancialReact-AIFinancialReactTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIFinancialReact-AIFinancialReactTests.release.xcconfig"; path = "Target Support Files/Pods-AIFinancialReact-AIFinancialReactTests/Pods-AIFinancialReact-AIFinancialReactTests.release.xcconfig"; sourceTree = "<group>"; };
+		937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-Light.ttf"; path = "../app/assets/fonts/Mona-Sans-Light.ttf"; sourceTree = "<group>"; };
+		9ED1E53C810A473596B0A3A6 /* Mona-Sans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-SemiBold.ttf"; path = "../app/assets/fonts/Mona-Sans-SemiBold.ttf"; sourceTree = "<group>"; };
+		CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-ExtraBold.ttf"; path = "../app/assets/fonts/Mona-Sans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-Medium.ttf"; path = "../app/assets/fonts/Mona-Sans-Medium.ttf"; sourceTree = "<group>"; };
+		DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Mona-Sans-Black.ttf"; path = "../app/assets/fonts/Mona-Sans-Black.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F702F2742C04961000B4F040 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-Black.ttf"; path = "../app/assets/fonts/Mona-Sans-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-Bold.ttf"; path = "../app/assets/fonts/Mona-Sans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-ExtraBold.ttf"; path = "../app/assets/fonts/Mona-Sans-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-Light.ttf"; path = "../app/assets/fonts/Mona-Sans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-Medium.ttf"; path = "../app/assets/fonts/Mona-Sans-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		704119E582FA4055935B3D28 /* Mona-Sans-Regular.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-Regular.ttf"; path = "../app/assets/fonts/Mona-Sans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9ED1E53C810A473596B0A3A6 /* Mona-Sans-SemiBold.ttf */ = {isa = PBXFileReference; name = "Mona-Sans-SemiBold.ttf"; path = "../app/assets/fonts/Mona-Sans-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +110,21 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = AIFinancialReact;
+			sourceTree = "<group>";
+		};
+		29B9A9EB69FA483A9ECAB259 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */,
+				78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */,
+				CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */,
+				937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */,
+				D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */,
+				704119E582FA4055935B3D28 /* Mona-Sans-Regular.ttf */,
+				9ED1E53C810A473596B0A3A6 /* Mona-Sans-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -165,21 +180,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		29B9A9EB69FA483A9ECAB259 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				DCFE86C907964B53B4B01025 /* Mona-Sans-Black.ttf */,
-				78F699F4C62643AD94E14D8C /* Mona-Sans-Bold.ttf */,
-				CF836A72E1794A35B5D7613F /* Mona-Sans-ExtraBold.ttf */,
-				937ACACC1A06461D9B92E812 /* Mona-Sans-Light.ttf */,
-				D463C2D10DA2484C9931EBED /* Mona-Sans-Medium.ttf */,
-				704119E582FA4055935B3D28 /* Mona-Sans-Regular.ttf */,
-				9ED1E53C810A473596B0A3A6 /* Mona-Sans-SemiBold.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

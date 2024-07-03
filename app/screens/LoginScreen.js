@@ -10,6 +10,7 @@ import auth from '@react-native-firebase/auth';
 import useAuths from '../auth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import navigationStrings from '../navigation/navigationStrings';
+import MyIndicator from '../components/MyIndicator';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -51,7 +52,7 @@ export default function LoginScreen() {
             setEmail('');
             setPassword('');
             setLoading(false);
-            console.log('user details: ', auth().currentUser);
+            // console.log('user details: ', auth().currentUser);
             setUser(auth().currentUser);
           })
           .catch(error => {
@@ -93,7 +94,8 @@ export default function LoginScreen() {
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
-            enableOnAndroid={true}>
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="always">
             <View style={{}}>
               <Text style={styles.heading}>Welcome Back!</Text>
               <Text style={styles.subHeading}>Please Sign in to continue</Text>
@@ -200,6 +202,7 @@ export default function LoginScreen() {
           </View>
         </View>
       </View>
+      <MyIndicator visible={loading} />
     </>
   );
 }

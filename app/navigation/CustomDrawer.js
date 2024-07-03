@@ -5,18 +5,44 @@ import {
   Text,
   Platform,
   StyleSheet,
-  ImageBackground,
   Image,
+  Alert,
   StatusBar,
 } from 'react-native';
 import DrawerItemListCompo from './DrawerItemListCompo';
 import navigationStrings from '../navigation/navigationStrings';
 import colors from '../config/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {getResponsiveHeight, getResponsiveWidth} from '../helper/getResponsive';
+import {getResponsiveHeight} from '../helper/getResponsive';
+import useAuth from '../auth/useAuth';
+import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 function CustomDrawer({navigation}) {
   const insect = useSafeAreaInsets();
+  const {logout} = useAuth();
+  // const navigation = useNavigation();
+  const userPhotoUrl = auth()?.currentUser?.photoURL;
+
+  const handleLogout = () => {
+    try {
+      Alert.alert('Signout', 'Are you sure to SignOut!', [
+        {
+          text: 'Yes',
+          onPress: logout,
+        },
+        {
+          text: 'No',
+        },
+      ]);
+    } catch (error) {
+      console.log(
+        '============ERROR WHILE LOG OUT in Custom Drawer========================',
+      );
+      console.log(error);
+      console.log('====================================');
+    }
+  };
 
   return (
     <>
@@ -32,20 +58,24 @@ function CustomDrawer({navigation}) {
         ]}>
         <View style={styles.profileImageContainer}>
           <Image
-            source={{
-              uri: 'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-            }}
+            source={
+              !userPhotoUrl
+                ? require('../assets/avatar.png')
+                : {uri: userPhotoUrl}
+            }
             style={styles.profileImage}
           />
           <View style={{marginLeft: 12}}>
-            <Text style={styles.userNameText}>David Brown</Text>
-            <Text style={styles.emailTxt}>davidbrown33@gmail.com</Text>
+            <Text style={styles.userNameText}>
+              {auth()?.currentUser?.displayName}
+            </Text>
+            <Text style={styles.emailTxt}>{auth()?.currentUser?.email}</Text>
           </View>
         </View>
       </View>
       <DrawerContentScrollView
         style={{
-          backgroundColor: colors.white,
+          backgroundColor: colors.off_White,
           width: '100%',
         }}
         showsVerticalScrollIndicator={false}>
@@ -56,11 +86,38 @@ function CustomDrawer({navigation}) {
           }}></View>
         <View style={{flex: 1, marginTop: 18}}>
           <DrawerItemListCompo
+            image={require('../assets/users.png')}
+            title="Clients"
+            onPress={() => {
+              // navigation.navigate(navigationStrings.SettingScreen);
+              // navigation.closeDrawer();
+            }}
+          />
+          <DrawerItemListCompo
+            image={require('../assets/user-icon.png')}
+            title="Profile"
+            onPress={() => {
+              navigation.closeDrawer();
+              navigation.navigate(navigationStrings.ProfileScreen);
+              // navigation.closeDrawer();
+            }}
+          />
+          <DrawerItemListCompo
             image={require('../assets/setting.png')}
             title="Setting"
             onPress={() => {
-              navigation.navigate(navigationStrings.SettingScreen);
               navigation.closeDrawer();
+              // navigation.navigate(navigationStrings.SettingScreen);
+              // navigation.closeDrawer();
+            }}
+          />
+          <DrawerItemListCompo
+            image={require('../assets/circle-1.png')}
+            title="Testing"
+            onPress={() => {
+              navigation.closeDrawer();
+              navigation.navigate(navigationStrings.TestingScreen);
+              // navigation.closeDrawer();
             }}
           />
         </View>
@@ -76,7 +133,7 @@ function CustomDrawer({navigation}) {
           }}
           txtStyle={{color: colors.black}}
           iconStyle={{tintColor: colors.black}}
-          onPress={{}}
+          onPress={handleLogout}
         />
       </View>
     </>
@@ -98,6 +155,7 @@ const styles = StyleSheet.create({
   drawerFooter: {
     paddingVertical: 24,
     paddingHorizontal: 12,
+    backgroundColor: colors.off_White,
   },
   topContainer: {
     height: getResponsiveHeight(20),
@@ -115,8 +173,8 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   line: {
-    width: '50%',
-    height: 2,
+    width: '80%',
+    height: 1.5,
     backgroundColor: colors.black,
     marginBottom: 20,
   },

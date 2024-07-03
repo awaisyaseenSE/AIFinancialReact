@@ -26,6 +26,8 @@ const TextInputComponent = ({
   leftIconStyle,
   onPress,
   loading = false,
+  innerRef,
+  showHideIconStyle,
   ...props
 }) => {
   return (
@@ -42,6 +44,7 @@ const TextInputComponent = ({
         </TouchableOpacity>
       )}
       <TextInput
+        ref={innerRef}
         style={{...styles.textStyle, ...textStyle}}
         value={value}
         placeholder={placeholder}
@@ -53,7 +56,10 @@ const TextInputComponent = ({
       />
       {!!secureText ? (
         <TouchableOpacity onPress={onPressSecure} activeOpacity={0.6}>
-          <Image source={secureText} style={styles.showHideIcon} />
+          <Image
+            source={secureText}
+            style={{...styles.showHideIcon, ...showHideIconStyle}}
+          />
         </TouchableOpacity>
       ) : null}
       {clearIcon.length > 0 ? (

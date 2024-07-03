@@ -3,9 +3,9 @@ import React from 'react';
 import colors from '../config/colors';
 import fontFamily from '../config/fontFamily';
 
-const TopHomeScreenCompo = ({onPressLeft, onPressRight}) => {
+const TopHomeScreenCompo = ({onPressLeft, onPressRight, style}) => {
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, ...style}}>
       <TouchableOpacity style={styles.iconContainer} onPress={onPressLeft}>
         <Image
           source={require('../assets/drawer-icon.png')}

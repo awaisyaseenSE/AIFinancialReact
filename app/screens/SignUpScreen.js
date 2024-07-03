@@ -19,6 +19,7 @@ import navigationStrings from '../navigation/navigationStrings';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import useAuths from '../auth/useAuth';
+import MyIndicator from '../components/MyIndicator';
 
 export default function SignUpScreen() {
   const [userName, setUserName] = useState('');
@@ -43,6 +44,9 @@ export default function SignUpScreen() {
       await firestore().collection('users').doc(auth().currentUser.uid).set({
         fullName: userName,
         email: email,
+        imageUrl: '',
+        phoneNumber: '',
+        dateOfBirth: '',
       });
       setLoading(false);
       setUser(auth().currentUser);
@@ -145,7 +149,8 @@ export default function SignUpScreen() {
         <View style={[styles.mainContainer, {flex: 0.8}]}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
-            enableOnAndroid={true}>
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="always">
             <View style={{}}>
               <Text style={styles.heading}>Sign Up</Text>
               <Text style={styles.subHeading}>create an account</Text>
@@ -263,6 +268,7 @@ export default function SignUpScreen() {
           </View>
         </View>
       </View>
+      <MyIndicator visible={loading} />
     </>
   );
 }

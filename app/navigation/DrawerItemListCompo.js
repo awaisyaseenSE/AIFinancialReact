@@ -1,6 +1,7 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import colors from '../config/colors';
+import fontFamily from '../config/fontFamily';
 
 const DrawerItemListCompo = ({
   image,
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 12,
     color: colors.black,
+    fontFamily: fontFamily.medium,
   },
 });
 
